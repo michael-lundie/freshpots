@@ -1,3 +1,130 @@
 <resources>
+    <!-- Name for the application [CHAR LIMIT=12] -->
     <string name="app_name">freshpots</string>
+
+    <!-- Label for overflow menu option that inserts fake item data into the app [CHAR LIMIT=20] -->
+    <string name="action_insert_dummy_data">Insert Dummy Data</string>
+
+    <!-- Label for overflow menu option that deletes all pet data in the app [CHAR LIMIT=20] -->
+    <string name="action_delete_all_items">Delete All Items</string>
+
+    <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
+    <string name="empty_view_title_text">Nothings here...</string>
+
+    <!-- Subtitle text for the empty view prompting the user to populate the database [CHAR LIMIT=50] -->
+    <string name="empty_view_subtitle_text">Get going by adding some new items.</string>
+
+    <!-- Label for overflow menu option that links to the catalogue activity [CHAR LIMIT=20] -->
+    <string name="action_goto_catalogue">Catalogue</string>
+
+    <!-- Label for overflow menu option that links to the editor activity [CHAR LIMIT=20] -->
+    <string name="action_goto_editor">Editor</string>
+
+    <!-- Dialogue label for sales quantity [CHAR LIMIT=20] -->
+    <string name="sell_dialogue_quantity">How many sold?</string>
+
+    <!-- Dialogue label for sales quantity [CHAR LIMIT=20] -->
+    <string name="sell_dialogue_confirm">Confirm Sale</string>
+
+    <!-- Dialogue label for sales quantity [CHAR LIMIT=20] -->
+    <string name="sell_dialogue_cancel">Cancel</string>
+
+    <!-- Title for the activity to add a new pet [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_new_item">Add a New Product</string>
+
+    <!-- Title for the activity to edit an existing pet [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_edit_item">Edit Product</string>
+
+    <!-- Editor menu option save item [CHAR LIMIT=20] -->
+    <string name="action_save">Save</string>
+
+    <!-- Editor menu option delete item [CHAR LIMIT=20] -->
+    <string name="action_delete">Delete</string>
+
+    <!-- Label for overview category of attributes in the editor [CHAR LIMIT=30] -->
+    <string name="category_overview">Overview</string>
+
+    <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_item_name">Product Name</string>
+
+    <!-- Text hint for the item type field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_item_type">Product Type</string>
+
+    <!-- Text hint for cost field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_item_cost">Enter Cost</string>
+
+    <!-- Item cost currency [CHAR LIMIT=5] -->
+    <string name="currency_item_cost">yen</string>
+
+    <!-- Label for availability category in the editor [CHAR LIMIT=30] -->
+    <string name="category_availability">Availability</string>
+
+    <!-- Label for dropdown item availability option: unavailable[CHAR LIMIT=20] -->
+    <string name="availability_unavailable">Unavailable</string>
+
+    <!-- Label for dropdown item availability option: in store only[CHAR LIMIT=20] -->
+    <string name="availability_instore">In Store Only</string>
+
+    <!-- Label for dropdown item availability option: online only[CHAR LIMIT=20] -->
+    <string name="availability_online">Online Only</string>
+
+    <!-- Label for dropdown item availability option: in store and online[CHAR LIMIT=20] -->
+    <string name="availability_all">Store and Online</string>
+
+    <!-- Label for stock category in the editor [CHAR LIMIT=30] -->
+    <string name="category_stock">Stock</string>
+
+    <!-- Label for stock category in the editor [CHAR LIMIT=30] -->
+    <string name="category_order">On Oder</string>
+
+    <!-- Dialog prompt for availability/stock conflict [CHAR LIMIT=NONE] -->
+    <string name="stock_conflict_dialog_msg">Oops! You have set item as available, but stock is zero.
+    What do you want to do?</string>
+
+    <!-- Dialog prompt for availability/stock conflict [CHAR LIMIT=NONE] -->
+    <string name="btn_change_availability">Change stock and save.</string>
+
+    <!-- Dialog prompt for availability/stock conflict [CHAR LIMIT=NONE] -->
+    <string name="btn_change_stock">Edit stock.</string>
+
+    <!-- Dialog prompt message for leaving editor before saving [CHAR LIMIT=NONE] -->
+    <string name="unsaved_changes_dialog_msg">Are you sure you want to discard your changes?</string>
+
+    <!-- Dialog prompt button text to discard edits. [CHAR LIMIT=20] -->
+    <string name="discard">Discard Changes</string>
+
+    <!-- Dialog prompt button text to continue edit [CHAR LIMIT=20] -->
+    <string name="keep_editing">Continue Editing</string>
+
+    <!-- Dialog prompt to confirm item deletion [CHAR LIMIT=NONE] -->
+    <string name="delete_dialog_msg">Are you sure you want to delete this product?</string>
+
+    <!-- Dialog prompt button: confirm deletion. [CHAR LIMIT=20] -->
+    <string name="delete">Delete</string>
+
+    <!-- Dialog prompt button: cancel deletion. [CHAR LIMIT=20] -->
+    <string name="cancel">Cancel</string>
+
+    <!-- Toast message for successful item deletion [CHAR LIMIT=NONE] -->
+    <string name="editor_delete_pet_successful">Product deleted.</string>
+
+    <!-- oast message for unsuccessful item deletion[CHAR LIMIT=NONE] -->
+    <string name="editor_delete_pet_failed">Yikes! Error when deleting product.</string>
+
+    <!-- Toast message for successful item addition[CHAR LIMIT=NONE] -->
+    <string name="editor_item_insert_success">Horrah! New product added.</string>
+
+    <!-- Toast message for unsuccessful item addition[CHAR LIMIT=NONE] -->
+    <string name="editor_item_insert_error">Oops! Please try again.</string>
+
+    <!-- Toast message for successful item update[CHAR LIMIT=NONE] -->
+    <string name="editor_item_update_success">Great! Product Updated.</string>
+
+    <!-- Toast message for unsuccessful item addition[CHAR LIMIT=NONE] -->
+    <string name="editor_item_update_error">Huston, we have a problem. Please check entries.</string>
+
+    <!-- Toast message for successful item deletion [CHAR LIMIT=NONE] -->
+    <string name="editor_nothing_added">No products were added.</string>
+
+
 </resources>

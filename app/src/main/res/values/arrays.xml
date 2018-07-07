@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Options for availability drop-down -->
+    <string-array name="array_availability_options">
+        <item>@string/availability_unavailable</item>
+        <item>@string/availability_instore</item>
+        <item>@string/availability_online</item>
+        <item>@string/availability_all</item>
+    </string-array>
+</resources>

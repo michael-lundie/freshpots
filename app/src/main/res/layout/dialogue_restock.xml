@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Stock category -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/restock_item_dialogue"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textview_restock_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:text="Restock"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+    <TextView
+        style="@style/CategoryStyle"
+        android:text="Choose Order Quantity" />
+
+        <Button
+            android:id="@+id/restock_button_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"/>
+
+        <TextView
+            android:id="@+id/textview_restock_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:spinnerMode="dropdown"
+            android:text="1"/>
+
+        <Button
+            android:id="@+id/restock_button_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"/>
+
+    </LinearLayout>
+</LinearLayout>

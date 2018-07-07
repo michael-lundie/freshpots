@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"
+    ?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="visible"/>
+        <RelativeLayout
+            android:id="@+id/information_wrapper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_weight="3">
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="#2B3D4D"
+                tools:text="Random name here."
+                />
+            <TextView
+                android:id="@+id/productType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="#AEB6BD"
+                tools:text="This is a cup."/>
+            <TextView
+                android:id="@+id/stock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/productType"
+                tools:text="Current stock: 14"/>
+            <TextView
+                android:id="@+id/sales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/stock"
+                tools:text="Current sales: 14"/>
+            <TextView
+                android:id="@+id/cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/name"
+                tools:text="300 yen"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/stock"
+        >
+        <Button
+            android:id="@+id/edit_item"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Edit"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_edit"/>
+
+        <Button
+            android:id="@+id/restock_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_restock"
+            android:drawablePadding="8dp"
+            android:text="Restock"/>
+        <Button
+            android:id="@+id/sell_item"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonImpact"
+            android:drawableLeft="@drawable/ic_credit_card"
+            android:text="sale"
+            />
+    </LinearLayout>
+</LinearLayout>

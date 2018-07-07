@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:style="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingTop="16dp"
+    tools:context=".EditorActivity"
+    android:background="@color/primaryDarkColor">
+
+    <!-- Overview category -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="@string/category_overview"
+            style="@style/CategoryStyle"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+        <!-- Input fields -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:paddingLeft="4dp"
+            android:orientation="vertical">
+
+            <!-- Name field -->
+            <TextView
+                android:id="@+id/item_name"
+                style="@style/DetailTextStyle"
+                android:text="item name"
+                android:visibility="visible"/>
+            <EditText
+                android:id="@+id/edit_item_name"
+                android:hint="@string/hint_item_name"
+                android:inputType="textCapWords"
+                style="@style/EditorFieldStyle"
+                android:visibility="gone"/>
+
+            <!-- Type field -->
+            <TextView
+                android:id="@+id/item_type"
+                style="@style/DetailTextStyle"
+                android:text="type name"
+                android:visibility="visible"/>
+            <EditText
+                android:id="@+id/edit_item_type"
+                android:hint="@string/hint_item_type"
+                android:inputType="textCapWords"
+                style="@style/EditorFieldStyle"
+                android:visibility="visible"/>
+
+            <!-- Input field with unit/currency -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/item_cost"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="10dp"
+                    style="@style/EditorFieldStyle"
+                    android:hint="@string/hint_item_cost"
+                    android:inputType="number" />
+                <!-- Type field -->
+                <EditText
+                    android:id="@+id/edit_item_cost"
+                    style="@style/EditorFieldStyle"
+                    android:hint="@string/hint_item_cost"
+                    android:inputType="number" />
+                <!-- Currency (yen) -->
+                <TextView
+                    android:id="@+id/label_cost_units"
+                    style="@style/EditorUnitsStyle"
+                    android:text="@string/currency_item_cost" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Availability category -->
+    <LinearLayout
+        android:id="@+id/container_availability"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="@string/category_availability"
+            style="@style/CategoryStyle" />
+
+        <!-- Input field -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <!-- Gender drop-down spinner -->
+            <Spinner
+                android:id="@+id/spinner_availability"
+                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:paddingRight="16dp"
+                android:spinnerMode="dropdown"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Stock category -->
+    <LinearLayout
+        android:id="@+id/container_stock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="@string/category_stock"
+            style="@style/CategoryStyle" />
+
+        <!-- Input field -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_stock_minus1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"/>
+
+            <!-- Gender drop-down spinner -->
+            <TextView
+                android:id="@+id/textview_stock"
+                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:spinnerMode="dropdown"/>
+
+            <Button
+                android:id="@+id/button_stock_plus1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <!-- Stock category -->
+    <LinearLayout
+        android:id="@+id/container_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="@string/category_order"
+            style="@style/CategoryStyle" />
+
+        <!-- Input field -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_order_minus1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"/>
+
+            <!-- Gender drop-down spinner -->
+            <TextView
+                android:id="@+id/textview_order"
+                android:layout_height="48dp"
+                android:layout_width="wrap_content"
+                android:spinnerMode="dropdown"/>
+
+            <Button
+                android:id="@+id/button_order_plus1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
