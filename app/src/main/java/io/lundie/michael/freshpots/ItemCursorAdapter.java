@@ -70,11 +70,11 @@ public class ItemCursorAdapter extends CursorAdapter  {
     public void bindView(final View view, final Context context, final Cursor cursor) {
 
         // Find individual views that we want to modify in the list item layout
-        TextView nameTextView = (TextView) view.findViewById(R.id.name);
-        TextView typeTextView = (TextView) view.findViewById(R.id.productType);
-        TextView stockTextView = (TextView) view.findViewById(R.id.stock);
-        TextView salesTextView = (TextView) view.findViewById(R.id.sales);
-        TextView costTextView = (TextView) view.findViewById(R.id.cost);
+        TextView nameTextView = view.findViewById(R.id.name);
+        TextView typeTextView = view.findViewById(R.id.productType);
+        TextView stockTextView = view.findViewById(R.id.stock);
+        TextView salesTextView = view.findViewById(R.id.sales);
+        TextView costTextView = view.findViewById(R.id.cost);
 
         // Let's get the column index of the attributes we are interested in from the database.
         int idColumnIndex = cursor.getColumnIndex(ItemEntry._ID);
@@ -104,7 +104,7 @@ public class ItemCursorAdapter extends CursorAdapter  {
         //TODO: Update with currency string
         costTextView.setText(itemCost + " yen");
 
-        Button editButton = (Button) view.findViewById(R.id.edit_item);
+        Button editButton = view.findViewById(R.id.edit_item);
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +117,7 @@ public class ItemCursorAdapter extends CursorAdapter  {
             }
         });
 
-        Button saleButton = (Button) view.findViewById(R.id.sell_item);
+        Button saleButton = view.findViewById(R.id.sell_item);
 
         saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,9 +150,9 @@ public class ItemCursorAdapter extends CursorAdapter  {
         sellItemDialogBuilder.setView(dialogView);
 
         //Set up our increment and decrement buttons.
-        final Button incrementSaleQuantity = (Button) dialogView.findViewById(R.id.sell_button_plus);
-        final Button decrementSaleQuantity = (Button) dialogView.findViewById(R.id.sell_button_minus);
-        final TextView quantityTextView = (TextView) dialogView.findViewById(R.id.textview_salequantity);
+        final Button incrementSaleQuantity = dialogView.findViewById(R.id.sell_button_plus);
+        final Button decrementSaleQuantity = dialogView.findViewById(R.id.sell_button_minus);
+        final TextView quantityTextView = dialogView.findViewById(R.id.textview_salequantity);
 
 
         //TODO: Replace String literals.

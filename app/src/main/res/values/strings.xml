@@ -56,6 +56,9 @@
     <!-- Item cost currency [CHAR LIMIT=5] -->
     <string name="currency_item_cost">yen</string>
 
+    <!-- Label for overview category of image in the editor [CHAR LIMIT=30] -->
+    <string name="category_image">Image</string>
+
     <!-- Label for availability category in the editor [CHAR LIMIT=30] -->
     <string name="category_availability">Availability</string>
 

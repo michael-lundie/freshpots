@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:style="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:paddingTop="16dp"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:fillViewport="true"
     tools:context=".EditorActivity"
-    android:background="@color/primaryDarkColor">
+    android:background="@color/primaryDarkColor"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="1dp"
+   >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:background="@color/primaryLightColor">
 
+        <Button
+            android:id="@+id/add_item_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            style="@style/RoundedButtonGreen"
+            android:drawablePadding="4dp"
+            android:padding="8dp"
+            android:text="Add Image"
+            android:drawableLeft="@drawable/ic_add_photo"
+            android:textAlignment="center"/>
+        <ImageView
+            android:id="@+id/item_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
     <!-- Overview category -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,8 +92,42 @@
                     android:text="@string/currency_item_cost" />
             </RelativeLayout>
         </LinearLayout>
-
     </LinearLayout>
+
+    <!-- Overview category -->
+   <!-- <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:text="@string/category_image"
+            style="@style/CategoryStyle"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:paddingLeft="4dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_edit"
+                android:
+                android:layout_weight="2"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/DetailTextStyle"/>
+        </LinearLayout>
+
+    </LinearLayout>-->
 
     <!-- Availability category -->
     <LinearLayout
@@ -200,3 +264,4 @@
     </LinearLayout>
 
 </LinearLayout>
+</ScrollView>

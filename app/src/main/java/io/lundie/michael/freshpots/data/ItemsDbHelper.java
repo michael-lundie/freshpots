@@ -23,6 +23,7 @@ public class ItemsDbHelper extends SQLiteOpenHelper {
                     ItemEntry.COLUMN_ITEM_NAME + " TEXT NOT NULL," +
                     ItemEntry.COLUMN_ITEM_TYPE + " TEXT," +
                     ItemEntry.COLUMN_ITEM_COST + " INTEGER NOT NULL," +
+                    ItemEntry.COLUMN_ITEM_IMAGE + " BLOB," +
                     ItemEntry.COLUMN_ITEM_STOCK + " INTEGER NOT NULL," +
                     ItemEntry.COLUMN_ITEM_ORDERQUANTITY + " INTEGER," +
                     ItemEntry.COLUMN_ITEM_ORDERFLAG + " INTEGER," +
@@ -32,7 +33,7 @@ public class ItemsDbHelper extends SQLiteOpenHelper {
     /** Class constructor */
     public ItemsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    };
+    }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {

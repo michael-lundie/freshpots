@@ -40,6 +40,7 @@ public class ItemsContract {
         public static final String COLUMN_ITEM_NAME = "name";
         public static final String COLUMN_ITEM_TYPE = "type";
         public static final String COLUMN_ITEM_COST = "cost";
+        public static final String COLUMN_ITEM_IMAGE = "image";
         public static final String COLUMN_ITEM_STOCK = "stock";
         public static final String COLUMN_ITEM_AVAILABILITY = "availability";
         public static final String COLUMN_ITEM_ORDERQUANTITY = "order_quantity";
@@ -60,11 +61,8 @@ public class ItemsContract {
          * or {@link #AVAILABILITY_INSTORE}.
          */
         public static boolean isValidAvailablitity(int availability) {
-            if (availability == AVAILABILITY_INSTORE || availability == AVAILABILITY_ONLINE ||
-                    availability == AVAILABILITY_ALL || availability == AVAILABILITY_UNAVAILABLE) {
-                return true;
-            }
-            return false;
+            return availability == AVAILABILITY_INSTORE || availability == AVAILABILITY_ONLINE ||
+                    availability == AVAILABILITY_ALL || availability == AVAILABILITY_UNAVAILABLE;
         }
 
         /**
@@ -72,10 +70,7 @@ public class ItemsContract {
          * is valid.
          */
         public static boolean isValidFlag(int orderflag) {
-            if (orderflag == ORDERFLAG_ACTIVE || orderflag == ORDERFLAG_INACTIVE) {
-                return true;
-            }
-            return false;
+            return orderflag == ORDERFLAG_ACTIVE || orderflag == ORDERFLAG_INACTIVE;
         }
     }
 }

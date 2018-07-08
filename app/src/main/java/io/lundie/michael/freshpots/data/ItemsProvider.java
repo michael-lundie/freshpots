@@ -113,7 +113,7 @@ public class ItemsProvider extends ContentProvider {
     }
 
     /**
-     * Insert a pet into the database with the given content values. Return the new content URI
+     * Insert an item into the database with the given content values. Return the new content URI
      * for that specific row in the database.
      */
     private Uri insertItem(Uri uri, ContentValues values) {

@@ -34,7 +34,7 @@ public class CatalogueActivity extends AppCompatActivity implements LoaderManage
         setContentView(R.layout.activity_catalogue);
 
         // Find the list view for populating with the item list.
-        ListView itemListView = (ListView) findViewById(R.id.list);
+        ListView itemListView = findViewById(R.id.list);
 
         // Find and set an empty view for the items list.
         View emptyView = findViewById(R.id.empty_view);

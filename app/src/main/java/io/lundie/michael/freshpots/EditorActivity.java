@@ -11,8 +11,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -28,36 +32,40 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 import io.lundie.michael.freshpots.data.ItemsContract.ItemEntry;
 import io.lundie.michael.freshpots.utilities.Counter;
+import io.lundie.michael.freshpots.utilities.DbBitmapUtility;
 
 public class EditorActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
 
     /** Identifier for item laoder (uses the same identifier as CatalogueActivity */
     private static final int ITEM_LOADER = 0;
+    public static final int IMAGE_REQUEST = 3;
 
     /** Content URI for the existing item (null if it is new) */
     private Uri mCurrentItemUri;
 
-    /** TextView field for name */
-    private TextView mNameTextView;
+    /** ImageView for item image */
+    private ImageView mImagePictureView;
+
+    /** Image for item image */
+    private Bitmap mImage;
 
     /** EditText field for Item Name */
     private EditText mNameEditText;
 
-    //** TextView field for item Type */
-    private TextView mTypeTextView;
-
     /** EditText field for Item Type */
     private EditText mTypeEditText;
-
-    /** TextView for Item Cost */
-    private TextView mCostTextView;
 
     /** EditText field for Item Cost*/
     private EditText mCostEditText;
@@ -112,13 +120,15 @@ public class EditorActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         mCurrentItemUri = intent.getData();
 
+        mImagePictureView = findViewById(R.id.item_image_view);
+
         // Find all relevant views that we will need to read user input from
-        mNameEditText = (EditText) findViewById(R.id.edit_item_name);
-        mTypeEditText = (EditText) findViewById(R.id.edit_item_type);
-        mCostEditText = (EditText) findViewById(R.id.edit_item_cost);
-        mAvailabilitySpinner = (Spinner) findViewById(R.id.spinner_availability);
-        mStockTextView = (TextView) findViewById(R.id.textview_stock);
-        mOrderTextView = (TextView) findViewById(R.id.textview_order);
+        mNameEditText = findViewById(R.id.edit_item_name);
+        mTypeEditText = findViewById(R.id.edit_item_type);
+        mCostEditText = findViewById(R.id.edit_item_cost);
+        mAvailabilitySpinner = findViewById(R.id.spinner_availability);
+        mStockTextView = findViewById(R.id.textview_stock);
+        mOrderTextView = findViewById(R.id.textview_order);
 
         // If it looks like there is no URI - lets create a new item.
         if (mCurrentItemUri == null) {
@@ -138,18 +148,14 @@ public class EditorActivity extends AppCompatActivity implements
             mAvailabilitySpinner.setOnTouchListener(mTouchListener);
 
         } else {
-            // If the above is not true, it looks like we will be editing an item.
-            //Let's set up accordingly.
+            // If the above is not true, it looks like we will be editing an item. Set up accordingly.
             setTitle(getString(R.string.editor_activity_title_edit_item));
 
-            // Initialize loader and read data from database. We'll be using the same loader ID as
-            // the dashboard and catalogue.
+            // Initialize loader and read data from database. Use consistent loader ID
             getLoaderManager().initLoader(ITEM_LOADER, null, this);
 
         }
-        // Setup OnTouchListeners on all the input fields, so we can determine if the user
-        // has touched or modified them. This will let us know if there are unsaved changes
-        // or not, if the user tries to leave the editor without saving.
+        // Setup OnTouchListeners on all the input fields to check for any possible user edits
         mNameEditText.setOnTouchListener(mTouchListener);
         mTypeEditText.setOnTouchListener(mTouchListener);
         mCostEditText.setOnTouchListener(mTouchListener);
@@ -165,6 +171,51 @@ public class EditorActivity extends AppCompatActivity implements
                 restockItemDialogue().show();
             }
         });
+
+        Button addImageButton = findViewById(R.id.add_item_image);
+
+        addImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get image gallery implicitly
+                Intent chooseImageIntent = new Intent(Intent.ACTION_PICK);
+
+                // Find data in the following location
+                File imagesDirectory = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES);
+                String imageDirectoryPath = imagesDirectory.getPath();
+                // Get URI representation
+                Uri data = Uri.parse(imageDirectoryPath);
+
+                // Set Data and MIME type
+                chooseImageIntent.setDataAndType(data, "image/*");
+
+                startActivityForResult(chooseImageIntent, IMAGE_REQUEST);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) { // success!
+            if (requestCode == IMAGE_REQUEST) { // Data returned from image gallery
+                Uri imageUri = data.getData();
+                // Declare a stream to read the image data
+                InputStream inputStream;
+                try {
+                    inputStream = getContentResolver().openInputStream(imageUri);
+                    // Decode bitmap from input stream
+                    mImage = BitmapFactory.decodeStream(inputStream);
+
+                    // display image in the editor ui
+                    mImagePictureView.setImageBitmap(mImage);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Unable to open image", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     private void setupEditStockView() {
@@ -291,7 +342,15 @@ public class EditorActivity extends AppCompatActivity implements
             return false;  // Don't continue save.
         }
 
-        // Create a ContentValues object wwith column names as key and item attributes as value.
+        byte imageByteArray[] = null;
+
+        if (mImage == null) {
+
+        } else {
+            imageByteArray = DbBitmapUtility.getBytes(mImage);
+        }
+
+        // Create a ContentValues object with column names as key and item attributes as value.
         ContentValues values = new ContentValues();
         values.put(ItemEntry.COLUMN_ITEM_NAME, nameString);
         values.put(ItemEntry.COLUMN_ITEM_TYPE, typeString);
@@ -299,6 +358,7 @@ public class EditorActivity extends AppCompatActivity implements
         values.put(ItemEntry.COLUMN_ITEM_AVAILABILITY, mAvailability);
         values.put(ItemEntry.COLUMN_ITEM_STOCK, mStockQuantity);
         values.put(ItemEntry.COLUMN_ITEM_ORDERQUANTITY, mOrderQuantity);
+        values.put(ItemEntry.COLUMN_ITEM_IMAGE, imageByteArray);
 
         // Cost should not be null.
         int cost = Integer.parseInt(costString);
@@ -437,6 +497,7 @@ public class EditorActivity extends AppCompatActivity implements
                 ItemEntry.COLUMN_ITEM_NAME,
                 ItemEntry.COLUMN_ITEM_TYPE,
                 ItemEntry.COLUMN_ITEM_COST,
+                ItemEntry.COLUMN_ITEM_IMAGE,
                 ItemEntry.COLUMN_ITEM_STOCK,
                 ItemEntry.COLUMN_ITEM_ORDERQUANTITY,
                 ItemEntry.COLUMN_ITEM_AVAILABILITY };
@@ -463,6 +524,7 @@ public class EditorActivity extends AppCompatActivity implements
             int nameColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
             int typeColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_TYPE);
             int costColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_COST);
+            int imageColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_IMAGE);
             int stockColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_STOCK);
             int orderColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_ORDERQUANTITY);
             int availabilityColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_AVAILABILITY);
@@ -481,6 +543,13 @@ public class EditorActivity extends AppCompatActivity implements
             mCostEditText.setText(Integer.toString(cost));
             mStockTextView.setText(Integer.toString(mStockQuantity));
             mOrderTextView.setText(Integer.toString(mOrderQuantity));
+
+
+            // The image view requires some special attention to check for null
+            byte imageByteArray[] = data.getBlob(imageColumnIndex);
+            if (imageByteArray != null && imageByteArray.length != 0){
+                Bitmap image = DbBitmapUtility.getImage(imageByteArray);
+            }
 
             //Use a switch to map constant values to one of the spinner drop down options.
             // Set appropriately to display on screen.
@@ -507,6 +576,7 @@ public class EditorActivity extends AppCompatActivity implements
         mNameEditText.setText("");
         mTypeEditText.setText("");
         mCostEditText.setText("");
+        mImagePictureView.setImageBitmap(null);
         mAvailabilitySpinner.setSelection(0); //Set back to default.
         mStockTextView.setText("0");
         mOrderTextView.setText("0");
@@ -637,9 +707,9 @@ public class EditorActivity extends AppCompatActivity implements
         restockItemDialogBuilder.setView(dialogView);
 
         //Set up our increment and decrement buttons.
-        final Button incrementSaleQuantity = (Button) dialogView.findViewById(R.id.restock_button_plus);
-        final Button decrementSaleQuantity = (Button) dialogView.findViewById(R.id.restock_button_minus);
-        final TextView quantityTextView = (TextView) dialogView.findViewById(R.id.textview_restock_quantity);
+        final Button incrementSaleQuantity = dialogView.findViewById(R.id.restock_button_plus);
+        final Button decrementSaleQuantity = dialogView.findViewById(R.id.restock_button_minus);
+        final TextView quantityTextView = dialogView.findViewById(R.id.textview_restock_quantity);
 
 
         //TODO: Replace String literals.
