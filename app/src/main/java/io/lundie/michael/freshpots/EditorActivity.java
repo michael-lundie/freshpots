@@ -1,9 +1,11 @@
 package io.lundie.michael.freshpots;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.ClipData;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,10 +18,12 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import io.lundie.michael.freshpots.data.ItemsContract.ItemEntry;
+import io.lundie.michael.freshpots.utilities.Counter;
 
 public class EditorActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
@@ -130,39 +135,36 @@ public class EditorActivity extends AppCompatActivity implements
             // Invalidate the options menu, to hide the delete button.
             invalidateOptionsMenu();
 
-            // Setup OnTouchListeners on all the input fields, so we can determine if the user
-            // has touched or modified them. This will let us know if there are unsaved changes
-            // or not, if the user tries to leave the editor without saving.
-            mNameEditText.setOnTouchListener(mTouchListener);
-            mTypeEditText.setOnTouchListener(mTouchListener);
-            mCostEditText.setOnTouchListener(mTouchListener);
             mAvailabilitySpinner.setOnTouchListener(mTouchListener);
+
         } else {
             // If the above is not true, it looks like we will be editing an item.
             //Let's set up accordingly.
             setTitle(getString(R.string.editor_activity_title_edit_item));
 
-            mNameTextView = (TextView) findViewById(R.id.item_name);
-            mTypeTextView = (TextView) findViewById(R.id.item_type);
-            mCostTextView = (TextView) findViewById(R.id.cost);
-
-            mNameTextView.setOnClickListener(this);
-            mTypeEditText.setOnTouchListener(mTouchListener);
-            mCostEditText.setOnTouchListener(mTouchListener);
-            mAvailabilitySpinner.setOnTouchListener(mTouchListener);
-
-
             // Initialize loader and read data from database. We'll be using the same loader ID as
             // the dashboard and catalogue.
             getLoaderManager().initLoader(ITEM_LOADER, null, this);
 
-
         }
-
+        // Setup OnTouchListeners on all the input fields, so we can determine if the user
+        // has touched or modified them. This will let us know if there are unsaved changes
+        // or not, if the user tries to leave the editor without saving.
+        mNameEditText.setOnTouchListener(mTouchListener);
+        mTypeEditText.setOnTouchListener(mTouchListener);
+        mCostEditText.setOnTouchListener(mTouchListener);
+        mAvailabilitySpinner.setOnTouchListener(mTouchListener);
         setupSpinner();
         setupEditStockView();
-        setupOrderStockView();
 
+        Button restockButton = findViewById(R.id.restock_item);
+
+        restockButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restockItemDialogue().show();
+            }
+        });
     }
 
     private void setupEditStockView() {
@@ -184,29 +186,6 @@ public class EditorActivity extends AppCompatActivity implements
                 mItemEntriesHaveChanged = true;
                 mStockQuantity = decrement(mStockQuantity, 1);
                 mStockTextView.setText(Integer.toString(mStockQuantity));
-            }
-        });
-    }
-
-    private void setupOrderStockView() {
-        Button plusButton = findViewById(R.id.button_order_plus1);
-        Button minusButton = findViewById(R.id.button_order_minus1);
-
-        //TODO: Add error messages for stock input using variable.
-        plusButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItemEntriesHaveChanged = true;
-                mOrderQuantity = increment(mOrderQuantity, 99);
-                mOrderTextView.setText(Integer.toString(mOrderQuantity));
-            }
-        });
-        minusButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItemEntriesHaveChanged = true;
-                mOrderQuantity = decrement(mOrderQuantity, 1);
-                mOrderTextView.setText(Integer.toString(mOrderQuantity));
             }
         });
     }
@@ -252,24 +231,7 @@ public class EditorActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()) {
-            case R.id.item_name:
-                Log.i("TEST", "Logged touch event");
-                mNameTextView.setVisibility(View.GONE);
-                mNameEditText.setVisibility(View.VISIBLE);
-                mItemEntriesHaveChanged = true;
-                break;
-            case R.id.item_type:
-                mTypeTextView.setVisibility(View.GONE);
-                mTypeEditText.setVisibility(View.VISIBLE);
-                mItemEntriesHaveChanged = true;
-                break;
-            case R.id.item_cost:
-                mCostTextView.setVisibility(View.GONE);
-                mCostEditText.setVisibility(View.VISIBLE);
-                mItemEntriesHaveChanged = true;
-                break;
-        }
+
     }
 
     /**
@@ -657,6 +619,85 @@ public class EditorActivity extends AppCompatActivity implements
         // Close the activity
         finish();
     }
+
+    /**
+     * This method creates, displays and handles our sales dialogue.
+     */
+    private Dialog restockItemDialogue() {
+
+        final ViewGroup viewRoot = findViewById(R.id.restock_item_dialogue);
+
+        // Let's inflate our dialogue from the XML script
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialogue_restock, viewRoot);
+
+        // Begin a new AlertDialog builder.
+        AlertDialog.Builder restockItemDialogBuilder = new AlertDialog.Builder(this);
+
+        // Assign our inflate view to the dialog
+        restockItemDialogBuilder.setView(dialogView);
+
+        //Set up our increment and decrement buttons.
+        final Button incrementSaleQuantity = (Button) dialogView.findViewById(R.id.restock_button_plus);
+        final Button decrementSaleQuantity = (Button) dialogView.findViewById(R.id.restock_button_minus);
+        final TextView quantityTextView = (TextView) dialogView.findViewById(R.id.textview_restock_quantity);
+
+
+        //TODO: Replace String literals.
+        final Counter restockCounter = new Counter(this, 30,
+                "Sorry! Maximum stock order is 30.", 1,
+                "Sorry! You can't order less than one item.");
+
+        // Check which language has previously been selected. (Default is English)
+        // Set our buttons appropriately.
+        decrementSaleQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restockCounter.decrement();
+                quantityTextView.setText(restockCounter.getQuantityAsString());
+            }
+        });
+
+        incrementSaleQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restockCounter.increment();
+                quantityTextView.setText(restockCounter.getQuantityAsString());
+            }
+        });
+
+        // Let's build the rest of our dialog
+        restockItemDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton(this.getResources().getString(R.string.sell_dialogue_confirm),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                // Create a ContentValues object and attach key/value pair
+                                int orderQuantity = restockCounter.getQuantity();
+                                //Solution to setting intent for e-mail only found at:
+                                //https://stackoverflow.com/a/14671082/9738433
+                                Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+                                emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                emailIntent.setType("vnd.android.cursor.item/email");
+                                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {"abc@xyz.com"});
+                                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Email Subject");
+                                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "My email content" + orderQuantity);
+                                startActivity(Intent.createChooser(emailIntent, "Send mail using..."));
+                                Toast.makeText(getApplicationContext(), "confirmed", Toast.LENGTH_SHORT).show();
+                                Uri pendingOrder = mCurrentItemUri;
+                                int pendingQuantity = orderQuantity;
+                            }
+                        })
+                .setNegativeButton(this.getResources().getString(R.string.sell_dialogue_cancel),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // Create the dialog from the builder
+        return restockItemDialogBuilder.create();
+    }
+
 
     // [HELPER METHODS] //
 

@@ -75,7 +75,7 @@
     <string name="category_stock">Stock</string>
 
     <!-- Label for stock category in the editor [CHAR LIMIT=30] -->
-    <string name="category_order">On Oder</string>
+    <string name="category_order">On Order</string>
 
     <!-- Dialog prompt for availability/stock conflict [CHAR LIMIT=NONE] -->
     <string name="stock_conflict_dialog_msg">Oops! You have set item as available, but stock is zero.

@@ -5,8 +5,8 @@
     <solid
         android:color="@color/primaryTextColor" />
 
-    <corners android:bottomLeftRadius="180dp"
-    android:topLeftRadius="180dp" />
+    <corners android:bottomLeftRadius="16dp"
+    android:topLeftRadius="16dp" />
 
     <padding
         android:left="20dp"

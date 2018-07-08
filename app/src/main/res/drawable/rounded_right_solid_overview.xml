@@ -5,8 +5,8 @@
     <solid
         android:color="@color/primaryLightColor" />
 
-    <corners android:bottomRightRadius="180dp"
-    android:topRightRadius="180dp" />
+    <corners android:bottomRightRadius="16dp"
+    android:topRightRadius="16dp" />
 
     <padding
         android:left="20dp"

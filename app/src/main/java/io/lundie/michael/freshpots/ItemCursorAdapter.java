@@ -117,15 +117,6 @@ public class ItemCursorAdapter extends CursorAdapter  {
             }
         });
 
-        final Button restockButton = (Button) view.findViewById(R.id.restock_item);
-
-        restockButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                restockItemDialogue(context, view, currentItemUri).show();
-            }
-        });
-
         Button saleButton = (Button) view.findViewById(R.id.sell_item);
 
         saleButton.setOnClickListener(new View.OnClickListener() {
@@ -138,85 +129,6 @@ public class ItemCursorAdapter extends CursorAdapter  {
                 }
             }
         });
-    }
-
-    /**
-     * This method creates, displays and handles our sales dialogue.
-     */
-    private Dialog restockItemDialogue(final Context context, View view, final Uri itemUri) {
-
-        final ViewGroup viewRoot = view.findViewById(R.id.restock_item_dialogue);
-
-        // Let's inflate our dialogue from the XML script
-        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialogue_restock, viewRoot);
-
-
-        // Begin a new AlertDialog builder.
-        AlertDialog.Builder restockItemDialogBuilder = new AlertDialog.Builder(context);
-
-        // Assign our inflate view to the dialog
-        restockItemDialogBuilder.setView(dialogView);
-
-        //Set up our increment and decrement buttons.
-        final Button incrementSaleQuantity = (Button) dialogView.findViewById(R.id.restock_button_plus);
-        final Button decrementSaleQuantity = (Button) dialogView.findViewById(R.id.restock_button_minus);
-        final TextView quantityTextView = (TextView) dialogView.findViewById(R.id.textview_restock_quantity);
-
-
-        //TODO: Replace String literals.
-        final Counter restockCounter = new Counter(context, 30,
-                "Sorry! Maximum stock order is 30.", 1,
-                "Sorry! You can't order less than one item.");
-
-        // Check which language has previously been selected. (Default is English)
-        // Set our buttons appropriately.
-        decrementSaleQuantity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                restockCounter.decrement();
-                quantityTextView.setText(restockCounter.getQuantityAsString());
-            }
-        });
-
-        incrementSaleQuantity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                restockCounter.increment();
-                quantityTextView.setText(restockCounter.getQuantityAsString());
-            }
-        });
-
-        // Let's build the rest of our dialog
-        restockItemDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton(context.getResources().getString(R.string.sell_dialogue_confirm),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                // Create a ContentValues object and attach key/value pair
-                                int orderQuantity = restockCounter.getQuantity();
-                                //Solution to setting intent for e-mail only found at:
-                                //https://stackoverflow.com/a/14671082/9738433
-                                Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-                                emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                emailIntent.setType("vnd.android.cursor.item/email");
-                                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] {"abc@xyz.com"});
-                                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Email Subject");
-                                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "My email content" + orderQuantity);
-                                context.startActivity(Intent.createChooser(emailIntent, "Send mail using..."));
-                                Toast.makeText(context, "confirmed", Toast.LENGTH_SHORT).show();
-                                Uri pendingOrder = itemUri;
-                                int pendingQuantity = orderQuantity;
-                            }
-                        })
-                .setNegativeButton(context.getResources().getString(R.string.sell_dialogue_cancel),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-        // Create the dialog from the builder
-        return restockItemDialogBuilder.create();
     }
 
     /**

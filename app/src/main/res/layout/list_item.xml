@@ -77,14 +77,6 @@
             android:drawableLeft="@drawable/ic_edit"/>
 
         <Button
-            android:id="@+id/restock_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_restock"
-            android:drawablePadding="8dp"
-            android:text="Restock"/>
-        <Button
             android:id="@+id/sell_item"
             android:layout_weight="1"
             android:layout_width="wrap_content"

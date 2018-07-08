@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DashboardActivity"
+        <activity android:name=".CatalogueActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,20 +17,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CatalogueActivity"
-            android:parentActivityName=".DashboardActivity" >
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DashboardActivity" />
-        </activity>
-        <activity
             android:name=".EditorActivity"
-            android:parentActivityName=".DashboardActivity" >
+            android:parentActivityName=".CatalogueActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DashboardActivity" />
+                android:value=".CatalogueActivity" />
         </activity>
         <provider
             android:name=".data.ItemsProvider"

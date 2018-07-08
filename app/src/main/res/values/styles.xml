@@ -15,6 +15,29 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Style for a counter button -->
+    <style name="CounterButton">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:background">@drawable/circle_solid</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <!-- Style for an Counter TextView -->
+    <style name="CounterTextViewStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
     <!-- Style for a category in the editor -->
     <style name="CategoryStyle">
         <item name="android:layout_height">wrap_content</item>
@@ -57,6 +80,19 @@
         <item name="android:paddingRight">16dp</item>
         <item name="android:paddingTop">16dp</item>
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
+    </style>
+
+    <!-- Style for rounded button green -->
+    <style name="RoundedButtonGreen">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:background">@drawable/rounded_solid_button</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
     </style>
 
 
