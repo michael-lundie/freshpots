@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--/ General UI  /-->
+    <dimen name="default_padding">16dp</dimen>
+    <dimen name="half_padding">8dp</dimen>
+
+    <!--/ Button with icon /-->
+    <dimen name="button_drawable_padding">4dp</dimen>
+
+    <!--/ Editor Activity -->
+    <dimen name="top_padding">1dp</dimen>
+    <dimen name="editor_image_minheight">50dp</dimen>
+    <dimen name="editor_input_leftpadding">4dp</dimen>
+    <dimen name="editor_layout_withbutton_viewpadding">2dp</dimen>
+    <dimen name="editor_layout_withbutton_rightpadding">2dp</dimen>
+
     <!-- Margin around the floating action button in CatalogActivity -->
     <dimen name="fab_margin">16dp</dimen>
 

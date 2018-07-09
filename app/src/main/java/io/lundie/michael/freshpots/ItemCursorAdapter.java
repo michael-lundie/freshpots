@@ -2,27 +2,26 @@ package io.lundie.michael.freshpots;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ClipData;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import io.lundie.michael.freshpots.data.ItemsContract.ItemEntry;
 import io.lundie.michael.freshpots.utilities.Counter;
+import io.lundie.michael.freshpots.utilities.DbBitmapUtility;
 
 /**
  * {@link ItemCursorAdapter} is an adapter for a list or grid view
@@ -30,6 +29,8 @@ import io.lundie.michael.freshpots.utilities.Counter;
  * how to create list items for each row of pet data in the {@link Cursor}.
  */
 public class ItemCursorAdapter extends CursorAdapter  {
+
+    public static final String LOG_TAG = ItemCursorAdapter.class.getName();
 
     /**
      * Constructs a new {@link ItemCursorAdapter}.
@@ -45,8 +46,7 @@ public class ItemCursorAdapter extends CursorAdapter  {
      * Makes a new blank list item view. No data is set (or bound) to the views yet.
      *
      * @param context app context
-     * @param cursor  The cursor from which to get the data. The cursor is already
-     *                moved to the correct position.
+     * @param cursor  The cursor from which to get the data.
      * @param parent  The parent to which the new view is attached to
      * @return the newly created list item view.
      */
@@ -57,19 +57,17 @@ public class ItemCursorAdapter extends CursorAdapter  {
     }
 
     /**
-     * This method binds the pet data (in the current row pointed to by cursor) to the given
-     * list item layout. For example, the name for the current pet can be set on the name TextView
-     * in the list item layout.
+     * Method to bind item data with our list item view.
      *
      * @param view    Existing view, returned earlier by newView() method
      * @param context app context
-     * @param cursor  The cursor from which to get the data. The cursor is already moved to the
-     *                correct row.
+     * @param cursor  The cursor with which to collect our data from.
      */
     @Override
     public void bindView(final View view, final Context context, final Cursor cursor) {
 
         // Find individual views that we want to modify in the list item layout
+        ImageView itemImageView = view.findViewById(R.id.list_image);
         TextView nameTextView = view.findViewById(R.id.name);
         TextView typeTextView = view.findViewById(R.id.productType);
         TextView stockTextView = view.findViewById(R.id.stock);
@@ -78,6 +76,7 @@ public class ItemCursorAdapter extends CursorAdapter  {
 
         // Let's get the column index of the attributes we are interested in from the database.
         int idColumnIndex = cursor.getColumnIndex(ItemEntry._ID);
+        int imageColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_IMAGE);
         int nameColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
         int typeColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_TYPE);
         int stockColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_STOCK);
@@ -92,7 +91,6 @@ public class ItemCursorAdapter extends CursorAdapter  {
         final int itemSales = cursor.getInt(salesColumnIndex);
         String itemCost = cursor.getString(costColumnIndex);
 
-
         //Grab the URI of the current item
         final Uri currentItemUri = ContentUris.withAppendedId(ItemEntry.CONTENT_URI, rowId);
 
@@ -101,8 +99,18 @@ public class ItemCursorAdapter extends CursorAdapter  {
         typeTextView.setText(itemType);
         stockTextView.setText(String.valueOf(itemStock));
         salesTextView.setText(String.valueOf(itemSales));
-        //TODO: Update with currency string
-        costTextView.setText(itemCost + " yen");
+        costTextView.setText(itemCost + context.getString(R.string.currency_item_cost));
+
+        // The image view requires some special attention to check for null
+        byte imageByteArray[] = cursor.getBlob(imageColumnIndex);
+        if (imageByteArray == null || imageByteArray.length <= 1){
+            // If there is no image for the item, we will hide the image view.
+            itemImageView.setVisibility(View.GONE);
+        } else {
+            // decode our image and set it to the image view
+            Bitmap image = DbBitmapUtility.getImage(imageByteArray);
+            itemImageView.setImageBitmap(image);
+        }
 
         Button editButton = view.findViewById(R.id.edit_item);
 
@@ -110,9 +118,7 @@ public class ItemCursorAdapter extends CursorAdapter  {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditorActivity.class);
-                //TODO: Try using final variable for URI
                 intent.setData(currentItemUri);
-                Log.i("TEST", "ID is" + ItemEntry.CONTENT_URI + cursor.getPosition());
                 context.startActivity(intent);
             }
         });
@@ -123,7 +129,7 @@ public class ItemCursorAdapter extends CursorAdapter  {
             @Override
             public void onClick(View v) {
                 if (itemStock == 0) {
-                    Toast.makeText(context, "Sorry, but there is no stock!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.toast_nostock), Toast.LENGTH_SHORT).show();
                 } else {
                     sellItemDialogue(context, view, currentItemUri, itemStock, itemSales).show();
                 }
@@ -153,12 +159,9 @@ public class ItemCursorAdapter extends CursorAdapter  {
         final Button incrementSaleQuantity = dialogView.findViewById(R.id.sell_button_plus);
         final Button decrementSaleQuantity = dialogView.findViewById(R.id.sell_button_minus);
         final TextView quantityTextView = dialogView.findViewById(R.id.textview_salequantity);
-
-
-        //TODO: Replace String literals.
         final Counter saleCounter = new Counter(context, stock,
-                "Sorry! Maximum stock available is" + stock + ".", 1,
-                "Sorry! You can't sell less than one item.");
+                context.getString(R.string.toast_salecounter_max) + stock + ".", 1,
+                context.getString(R.string.toast_salecounter_min));
 
         // Check which language has previously been selected. (Default is English)
         // Set our buttons appropriately.
@@ -175,7 +178,6 @@ public class ItemCursorAdapter extends CursorAdapter  {
             public void onClick(View v) {
                 saleCounter.increment();
                 quantityTextView.setText(saleCounter.getQuantityAsString());
-                Log.i("TEST", saleCounter.getQuantityAsString());
             }
         });
 

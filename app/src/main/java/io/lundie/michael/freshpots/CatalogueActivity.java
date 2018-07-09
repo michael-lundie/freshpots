@@ -114,6 +114,8 @@ public class CatalogueActivity extends AppCompatActivity implements LoaderManage
                 ItemEntry._ID,
                 ItemEntry.COLUMN_ITEM_NAME,
                 ItemEntry.COLUMN_ITEM_TYPE,
+                ItemEntry.COLUMN_ITEM_IMAGE,
+
                 ItemEntry.COLUMN_ITEM_STOCK,
                 ItemEntry.COLUMN_ITEM_SALES,
                 ItemEntry.COLUMN_ITEM_COST };

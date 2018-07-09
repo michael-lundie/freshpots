@@ -20,6 +20,12 @@
     <!-- Label for overflow menu option that links to the editor activity [CHAR LIMIT=20] -->
     <string name="action_goto_editor">Editor</string>
 
+    <!-- Button Label for sale in catalogue activity [CHAR LIMIT=12] -->
+    <string name="button_edit">Edit</string>
+
+    <!-- Button Label for sale in catalogue activity [CHAR LIMIT=12] -->
+    <string name="button_sale">Sell Item</string>
+
     <!-- Dialogue label for sales quantity [CHAR LIMIT=20] -->
     <string name="sell_dialogue_quantity">How many sold?</string>
 
@@ -129,5 +135,25 @@
     <!-- Toast message for successful item deletion [CHAR LIMIT=NONE] -->
     <string name="editor_nothing_added">No products were added.</string>
 
+    <!-- Dialogue category title for restock [CHAR LIMIT=30@S] -->
+    <string name="dialogue_restock_choose_quantity">Choose Order Quantity</string>
+
+    <!-- Dialogue restock - counter maximum [CHAR LIMIT=30@S] -->
+    <string name="dialogue_restock_toast_counter_max">Sorry! Maximum stock order is</string>
+
+    <!-- Dialogue restock - counter maximum [CHAR LIMIT=30@S] -->
+    <string name="dialogue_restock_toast_counter_min">Sorry! You can\'t order less than one item.</string>
+
+    <!-- Toast message for no stock [CHAR LIMIT=NONE] -->
+    <string name="toast_nostock">Sorry, but there is no stock!</string>
+
+    <!-- Toast message for sale counter - maximum stock reached [CHAR LIMIT=NONE] -->
+    <string name="toast_salecounter_max">Sorry! Maximum stock available is</string>
+
+    <!-- Toast message for sale counter - minimum reached [CHAR LIMIT=NONE] -->
+    <string name="toast_salecounter_min">Sorry! You can\'t sell less than one item.</string>
+
+    <!-- Toast message for sale counter - minimum reached [CHAR LIMIT=NONE] -->
+    <string name="toast_image_error">Sorry! We couldn\'t access that image.</string>
 
 </resources>

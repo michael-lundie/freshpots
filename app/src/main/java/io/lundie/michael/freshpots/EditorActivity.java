@@ -46,11 +46,17 @@ import io.lundie.michael.freshpots.utilities.Counter;
 import io.lundie.michael.freshpots.utilities.DbBitmapUtility;
 
 public class EditorActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
+        LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** Identifier for item laoder (uses the same identifier as CatalogueActivity */
+    public static final String LOG_TAG = EditorActivity.class.getName();
+
+    /** Identifier for item loader (uses the same identifier as CatalogueActivity */
     private static final int ITEM_LOADER = 0;
     public static final int IMAGE_REQUEST = 3;
+
+    /** Static constant for max order quantity */
+
+    private static final int MAX_ORDER_QUANTITY = 30;
 
     /** Content URI for the existing item (null if it is new) */
     private Uri mCurrentItemUri;
@@ -139,9 +145,6 @@ public class EditorActivity extends AppCompatActivity implements
             mStockTextView.setText("0");
             mOrderTextView.setText("0");
 
-            // Display all of the edit fields.
-            showAllEditFields();
-
             // Invalidate the options menu, to hide the delete button.
             invalidateOptionsMenu();
 
@@ -171,6 +174,8 @@ public class EditorActivity extends AppCompatActivity implements
                 restockItemDialogue().show();
             }
         });
+
+        // Tutorial for getting image from gallery followed: https://youtu.be/_xIWkCJZCu0
 
         Button addImageButton = findViewById(R.id.add_item_image);
 
@@ -208,17 +213,23 @@ public class EditorActivity extends AppCompatActivity implements
                     // Decode bitmap from input stream
                     mImage = BitmapFactory.decodeStream(inputStream);
 
+                    mImage = Bitmap.createScaledBitmap(mImage, 200, 200, true);
+
                     // display image in the editor ui
                     mImagePictureView.setImageBitmap(mImage);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    Toast.makeText(this, "Unable to open image", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, this.getString(R.string.toast_image_error),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
 
     private void setupEditStockView() {
+
+        final Counter stockCounter = new Counter(this, 99, "", 1, "");
+
         Button plusButton = findViewById(R.id.button_stock_plus1);
         Button minusButton = findViewById(R.id.button_stock_minus1);
 
@@ -227,16 +238,16 @@ public class EditorActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 mItemEntriesHaveChanged = true;
-                mStockQuantity = increment(mStockQuantity, 99);
-                mStockTextView.setText(Integer.toString(mStockQuantity));
+                stockCounter.increment();
+                mStockTextView.setText(stockCounter.getQuantityAsString());
             }
         });
         minusButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mItemEntriesHaveChanged = true;
-                mStockQuantity = decrement(mStockQuantity, 1);
-                mStockTextView.setText(Integer.toString(mStockQuantity));
+                stockCounter.decrement();
+                mStockTextView.setText(stockCounter.getQuantityAsString());
             }
         });
     }
@@ -280,14 +291,9 @@ public class EditorActivity extends AppCompatActivity implements
         });
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
     /**
      * Checks to see if input fields are empty.
-     * TODO: There must be a nicer way to write this. Thsi feels somewhat convoluted.
+     * TODO: Update with new input fields
      */
 
     private void checkForEmptyInputs(String name, String type, String cost) {
@@ -345,8 +351,9 @@ public class EditorActivity extends AppCompatActivity implements
         byte imageByteArray[] = null;
 
         if (mImage == null) {
-
+            Log.i(LOG_TAG, "TEST: Image is null.");
         } else {
+            Log.i(LOG_TAG, "TEST: Image is not null.");
             imageByteArray = DbBitmapUtility.getBytes(mImage);
         }
 
@@ -355,10 +362,10 @@ public class EditorActivity extends AppCompatActivity implements
         values.put(ItemEntry.COLUMN_ITEM_NAME, nameString);
         values.put(ItemEntry.COLUMN_ITEM_TYPE, typeString);
         values.put(ItemEntry.COLUMN_ITEM_COST, costString);
+        values.put(ItemEntry.COLUMN_ITEM_IMAGE, imageByteArray);
         values.put(ItemEntry.COLUMN_ITEM_AVAILABILITY, mAvailability);
         values.put(ItemEntry.COLUMN_ITEM_STOCK, mStockQuantity);
         values.put(ItemEntry.COLUMN_ITEM_ORDERQUANTITY, mOrderQuantity);
-        values.put(ItemEntry.COLUMN_ITEM_IMAGE, imageByteArray);
 
         // Cost should not be null.
         int cost = Integer.parseInt(costString);
@@ -512,30 +519,30 @@ public class EditorActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         // If there is no data, make a prompt exit. Get out while you still can!
-        if (data == null || data.getCount() < 1) {
+        if (cursor == null || cursor.getCount() < 1) {
             return;
         }
         // Proceed with moving to the first row of the cursor and reading data from it
         // (This should be the only row in the cursor)
-        if (data.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             // Find the columns of pet attributes that we're interested in
-            int nameColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
-            int typeColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_TYPE);
-            int costColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_COST);
-            int imageColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_IMAGE);
-            int stockColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_STOCK);
-            int orderColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_ORDERQUANTITY);
-            int availabilityColumnIndex = data.getColumnIndex(ItemEntry.COLUMN_ITEM_AVAILABILITY);
+            int nameColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_NAME);
+            int typeColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_TYPE);
+            int costColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_COST);
+            int imageColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_IMAGE);
+            int stockColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_STOCK);
+            int orderColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_ORDERQUANTITY);
+            int availabilityColumnIndex = cursor.getColumnIndex(ItemEntry.COLUMN_ITEM_AVAILABILITY);
 
             // Extract out the value from the cursor for the given column index
-            String name = data.getString(nameColumnIndex);
-            String type = data.getString(typeColumnIndex);
-            int cost = data.getInt(costColumnIndex);
-            mStockQuantity = data.getInt(stockColumnIndex);
-            mOrderQuantity = data.getInt(orderColumnIndex);
-            int availability = data.getInt(availabilityColumnIndex);
+            String name = cursor.getString(nameColumnIndex);
+            String type = cursor.getString(typeColumnIndex);
+            int cost = cursor.getInt(costColumnIndex);
+            mStockQuantity = cursor.getInt(stockColumnIndex);
+            mOrderQuantity = cursor.getInt(orderColumnIndex);
+            int availability = cursor.getInt(availabilityColumnIndex);
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
@@ -546,9 +553,10 @@ public class EditorActivity extends AppCompatActivity implements
 
 
             // The image view requires some special attention to check for null
-            byte imageByteArray[] = data.getBlob(imageColumnIndex);
+            byte imageByteArray[] = cursor.getBlob(imageColumnIndex);
             if (imageByteArray != null && imageByteArray.length != 0){
                 Bitmap image = DbBitmapUtility.getImage(imageByteArray);
+                mImagePictureView.setImageBitmap(image);
             }
 
             //Use a switch to map constant values to one of the spinner drop down options.
@@ -711,14 +719,12 @@ public class EditorActivity extends AppCompatActivity implements
         final Button decrementSaleQuantity = dialogView.findViewById(R.id.restock_button_minus);
         final TextView quantityTextView = dialogView.findViewById(R.id.textview_restock_quantity);
 
-
         //TODO: Replace String literals.
-        final Counter restockCounter = new Counter(this, 30,
-                "Sorry! Maximum stock order is 30.", 1,
-                "Sorry! You can't order less than one item.");
+        final Counter restockCounter = new Counter(this, MAX_ORDER_QUANTITY,
+                this.getString(R.string.dialogue_restock_toast_counter_max)
+                        + MAX_ORDER_QUANTITY + ".", 1,
+                this.getString(R.string.dialogue_restock_toast_counter_min));
 
-        // Check which language has previously been selected. (Default is English)
-        // Set our buttons appropriately.
         decrementSaleQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -768,20 +774,7 @@ public class EditorActivity extends AppCompatActivity implements
         return restockItemDialogBuilder.create();
     }
 
-
     // [HELPER METHODS] //
-
-    /**
-     * Method to display either edit fields
-     */
-
-    private void showAllEditFields() {
-        mNameEditText.setVisibility(View.VISIBLE);
-        mTypeEditText.setVisibility(View.VISIBLE);
-        mCostEditText.setVisibility(View.VISIBLE);
-        mAvailabilitySpinner.setVisibility(View.VISIBLE);
-
-    }
 
     /**
      * Method to set the input error variable
@@ -793,29 +786,5 @@ public class EditorActivity extends AppCompatActivity implements
         if(isInputError && !status) {
             return;
         } isInputError = status;
-    }
-
-    /**
-     * This method is called to increment quantity.
-     */
-    public int increment(int quantity, int limit) {
-        if (quantity <=limit) {
-            quantity++;
-        } else {
-            Toast.makeText(this, "Sorry, you have reached the stock limit.",Toast.LENGTH_SHORT).show();
-        }
-        return quantity;
-    }
-
-    /**
-     * This method is called to decrement quantity.
-     */
-    public int decrement(int quantity, int limit) {
-        if (quantity >=limit) {
-            quantity --;
-        } else {
-            Toast.makeText(this, "Sorry, it is not possible to have negative stock.",Toast.LENGTH_SHORT).show();
-        }
-        return quantity;
     }
 }
