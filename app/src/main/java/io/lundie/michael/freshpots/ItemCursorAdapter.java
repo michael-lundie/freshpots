@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import io.lundie.michael.freshpots.data.ItemsContract.ItemEntry;
+import io.lundie.michael.freshpots.dialogs.CounterDialog;
 import io.lundie.michael.freshpots.utilities.Counter;
 import io.lundie.michael.freshpots.utilities.DbBitmapUtility;
 
@@ -28,7 +29,7 @@ import io.lundie.michael.freshpots.utilities.DbBitmapUtility;
  * that uses a {@link Cursor} of pet data as its data source. This adapter knows
  * how to create list items for each row of pet data in the {@link Cursor}.
  */
-public class ItemCursorAdapter extends CursorAdapter  {
+public class ItemCursorAdapter extends CursorAdapter implements CounterDialog.OnButtonClick {
 
     public static final String LOG_TAG = ItemCursorAdapter.class.getName();
 
@@ -138,6 +139,25 @@ public class ItemCursorAdapter extends CursorAdapter  {
                 }
             }
         });
+    }
+
+    @Override
+    public void onConfirmButtonClick() {
+        // Create a ContentValues object and attach key/value pair
+        int quantityToSell = ;
+        int newTotalSalesQuantity = sales + quantityToSell;
+        int newTotalStockQuantity = stock - quantityToSell;
+        ContentValues values = new ContentValues();
+        values.put(ItemEntry.COLUMN_ITEM_SALES, newTotalSalesQuantity);
+        values.put(ItemEntry.COLUMN_ITEM_STOCK,newTotalStockQuantity);
+        context.getContentResolver().update(itemUri, values,
+                null, null );
+        Toast.makeText(context, "confirmed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCancelButtonClick() {
+
     }
 
     /**

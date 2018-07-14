@@ -1,10 +1,10 @@
 package io.lundie.michael.freshpots.dialogs;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +15,16 @@ import android.widget.TextView;
 import io.lundie.michael.freshpots.R;
 import io.lundie.michael.freshpots.utilities.Counter;
 
-public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragment.OnDialogFragmentClickListener> {
+public class GeneralDialog extends BaseDialog<GeneralDialog.OnClickListener> {
+
+    public GeneralDialog(@NonNull Context context) {
+        super(context);
+    }
 
     // interface to handle the dialog click back to the Activity
-    public interface OnDialogFragmentClickListener {
-        public void onConfirmClicked(GeneralDialogFragment dialog);
-        public void onCancelClicked(GeneralDialogFragment dialog);
+    public interface OnDialogClickListener {
+        public void onConfirmClicked(GeneralDialog dialog);
+        public void onCancelClicked(GeneralDialog dialog);
     }
 
     // Create an instance of the Dialog with the input
@@ -42,7 +46,7 @@ public class GeneralDialogFragment extends BaseDialogFragment<GeneralDialogFragm
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         // Let's inflate our dialogue from the XML script
-        View dialogView = inflater.inflate(R.layout.dialogue_restock, container, false);
+        View dialogView = inflater.inflate(R.layout.dialogue_counter, container, false);
 
         Context context = getActivity().getApplicationContext();
 

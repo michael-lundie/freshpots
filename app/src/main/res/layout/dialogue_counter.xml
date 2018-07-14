@@ -12,26 +12,38 @@
 
     <TextView
         style="@style/DialogStyle"
-        android:text="@string/dialogue_restock_choose_quantity" />
+        android:id="@+id/dialog_title" />
     <LinearLayout
         style="@style/DialogCounterLayout"
         >
         <Button
             style="@style/CounterButton"
-            android:id="@+id/restock_button_minus"
+            android:id="@+id/dialog_counter_button_minus"
             android:text="-"/>
 
         <TextView
-            android:id="@+id/textview_restock_quantity"
+            android:id="@+id/dialog_textview_counter_quantity"
             style="@style/CounterTextViewStyle"
             android:text="1"/>
 
         <Button
-            android:id="@+id/restock_button_plus"
+            android:id="@+id/dialog_counter_button_plus"
             style="@style/CounterButton"
             android:text="+"/>
-
     </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/dialog_counter_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/dialog_counter_confirm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </LinearLayout>

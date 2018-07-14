@@ -3,9 +3,7 @@ package io.lundie.michael.freshpots;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LoaderManager;
-import android.content.ClipData;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +11,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -42,12 +39,13 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import io.lundie.michael.freshpots.data.ItemsContract.ItemEntry;
+import io.lundie.michael.freshpots.dialogs.CounterDialog;
 import io.lundie.michael.freshpots.utilities.Counter;
 import io.lundie.michael.freshpots.utilities.DbBitmapUtility;
 import io.lundie.michael.freshpots.utilities.DecodeByteArrayAsyncTask;
 
 public class EditorActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        CounterDialog.OnButtonClick {
 
     public static final String LOG_TAG = EditorActivity.class.getName();
 
@@ -120,6 +118,16 @@ public class EditorActivity extends AppCompatActivity implements
             return false;
         }
     };
+
+    @Override
+    public void onConfirmButtonClick() {
+
+    }
+
+    @Override
+    public void onCancelButtonClick() {
+
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -721,7 +729,7 @@ public class EditorActivity extends AppCompatActivity implements
         final ViewGroup viewRoot = findViewById(R.id.restock_item_dialogue);
 
         // Let's inflate our dialogue from the XML script
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialogue_restock, viewRoot);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialogue_counter, viewRoot);
 
         // Begin a new AlertDialog builder.
         AlertDialog.Builder restockItemDialogBuilder = new AlertDialog.Builder(this);
