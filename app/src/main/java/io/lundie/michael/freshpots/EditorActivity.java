@@ -44,6 +44,7 @@ import java.io.InputStream;
 import io.lundie.michael.freshpots.data.ItemsContract.ItemEntry;
 import io.lundie.michael.freshpots.utilities.Counter;
 import io.lundie.michael.freshpots.utilities.DbBitmapUtility;
+import io.lundie.michael.freshpots.utilities.DecodeByteArrayAsyncTask;
 
 public class EditorActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -63,6 +64,9 @@ public class EditorActivity extends AppCompatActivity implements
 
     /** ImageView for item image */
     private ImageView mImagePictureView;
+
+    /** Image ByteArray */
+    private byte[] imageByteArray;
 
     /** Image for item image */
     private Bitmap mImage;
@@ -213,7 +217,7 @@ public class EditorActivity extends AppCompatActivity implements
                     // Decode bitmap from input stream
                     mImage = BitmapFactory.decodeStream(inputStream);
 
-                    mImage = Bitmap.createScaledBitmap(mImage, 200, 200, true);
+                    mImage = Bitmap.createScaledBitmap(mImage, 220, 220, true);
 
                     // display image in the editor ui
                     mImagePictureView.setImageBitmap(mImage);
@@ -239,6 +243,7 @@ public class EditorActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 mItemEntriesHaveChanged = true;
                 stockCounter.increment();
+                mStockQuantity = stockCounter.getQuantity();
                 mStockTextView.setText(stockCounter.getQuantityAsString());
             }
         });
@@ -247,6 +252,7 @@ public class EditorActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 mItemEntriesHaveChanged = true;
                 stockCounter.decrement();
+                mStockQuantity = stockCounter.getQuantity();
                 mStockTextView.setText(stockCounter.getQuantityAsString());
             }
         });
@@ -348,12 +354,7 @@ public class EditorActivity extends AppCompatActivity implements
             return false;  // Don't continue save.
         }
 
-        byte imageByteArray[] = null;
-
-        if (mImage == null) {
-            Log.i(LOG_TAG, "TEST: Image is null.");
-        } else {
-            Log.i(LOG_TAG, "TEST: Image is not null.");
+        if (mImage != null) {
             imageByteArray = DbBitmapUtility.getBytes(mImage);
         }
 
@@ -369,7 +370,6 @@ public class EditorActivity extends AppCompatActivity implements
 
         // Cost should not be null.
         int cost = Integer.parseInt(costString);
-
         values.put(ItemEntry.COLUMN_ITEM_COST, cost);
 
         // Check if this is a new item, or an item being updated.
@@ -553,10 +553,25 @@ public class EditorActivity extends AppCompatActivity implements
 
 
             // The image view requires some special attention to check for null
-            byte imageByteArray[] = cursor.getBlob(imageColumnIndex);
-            if (imageByteArray != null && imageByteArray.length != 0){
-                Bitmap image = DbBitmapUtility.getImage(imageByteArray);
-                mImagePictureView.setImageBitmap(image);
+            imageByteArray = cursor.getBlob(imageColumnIndex);
+
+            if (imageByteArray != null && imageByteArray.length != 0) {
+                // Let's recreate our image from a ByteArray using AsyncTask to prevent UI lag
+                new DecodeByteArrayAsyncTask(new DecodeByteArrayAsyncTask.Listener() {
+                    @Override
+                    public void onImageRetrieved(Bitmap bitmap) {
+                        mImagePictureView.setImageBitmap(bitmap);
+                    }
+
+                    @Override
+                    public void onImageRetrievalError() {
+
+                    }
+                }).execute(imageByteArray);
+
+
+                Button myButton = this.findViewById(R.id.add_item_image);
+                myButton.setText(getString(R.string.editor_button_edit_image));
             }
 
             //Use a switch to map constant values to one of the spinner drop down options.

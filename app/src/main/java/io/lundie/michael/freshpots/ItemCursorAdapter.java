@@ -96,9 +96,12 @@ public class ItemCursorAdapter extends CursorAdapter  {
 
         // Update the TextViews with the attributes for the current item
         nameTextView.setText(itemName);
-        typeTextView.setText(itemType);
-        stockTextView.setText(String.valueOf(itemStock));
-        salesTextView.setText(String.valueOf(itemSales));
+        typeTextView.setText(context.getString(R.string.catalogue_item_type_text)
+                + " " + itemType);
+        stockTextView.setText(context.getString(R.string.catalogue_stock_text)
+                + " " + String.valueOf(itemStock));
+        salesTextView.setText(context.getString(R.string.catalogue_sales_text)
+                + " " + String.valueOf(itemSales));
         costTextView.setText(itemCost + context.getString(R.string.currency_item_cost));
 
         // The image view requires some special attention to check for null

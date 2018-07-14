@@ -102,17 +102,24 @@
         <item name="android:layout_marginBottom">@dimen/default_padding</item>
     </style>
 
-    <!-- Style for rounded button green -->
-    <style name="RoundedButtonGreen">
+    <!-- Style for rounded button -->
+    <style name="RoundedButton">
         <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_width">30dp</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_margin">2dp</item>
-        <item name="android:background">@drawable/rounded_solid_button</item>
         <item name="android:textColor">@color/primaryTextColor</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    </style>
+
+    <style name="RoundedButtonGreen" parent="RoundedButton">
+        <item name="android:background">@drawable/rounded_solid_button_green</item>
+    </style>
+
+    <style name="RoundedButtonBlue" parent="RoundedButton">
+        <item name="android:background">@drawable/rounded_solid_button_gray</item>
     </style>
 
 

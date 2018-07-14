@@ -31,7 +31,7 @@
             style="@style/RoundedButtonGreen"
             android:drawablePadding="@dimen/button_drawable_padding"
             android:padding="@dimen/half_padding"
-            android:text="Add Image"
+            android:text="@string/editor_button_add_image"
             android:drawableLeft="@drawable/ic_add_photo"
             android:textAlignment="center"/>
         <ImageView
@@ -249,7 +249,7 @@
             <Button
                 android:id="@+id/restock_item"
                 style="@style/RoundedButtonGreen"
-                android:background="@drawable/rounded_solid_button"
+                android:background="@drawable/rounded_solid_button_green"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="@dimen/editor_layout_withbutton_rightpadding"
@@ -258,7 +258,7 @@
                 android:paddingBottom="@dimen/editor_input_leftpadding"
                 android:drawableLeft="@drawable/ic_restock"
                 android:drawablePadding="@dimen/button_drawable_padding"
-                android:text="Order"/>
+                android:text="@string/editor_button_order"/>
 
         </LinearLayout>
     </LinearLayout>
