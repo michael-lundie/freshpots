@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -38,6 +39,16 @@ public class CatalogueActivity extends AppCompatActivity implements LoaderManage
         // Find and set an empty view for the items list.
         View emptyView = findViewById(R.id.empty_view);
         itemListView.setEmptyView(emptyView);
+
+        // Setting up our FAB add button
+        FloatingActionButton searchDialogButton = findViewById(R.id.fab_add);
+        searchDialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CatalogueActivity.this, EditorActivity.class);
+                CatalogueActivity.this.startActivity(intent);
+            }
+        });
 
         mCursorAdapter = new ItemCursorAdapter(this, null);
         itemListView.setAdapter(mCursorAdapter);

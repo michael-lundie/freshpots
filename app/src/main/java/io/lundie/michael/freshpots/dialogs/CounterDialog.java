@@ -20,6 +20,7 @@ public class CounterDialog extends Dialog implements View.OnClickListener {
     private CounterDialog.OnButtonClick onButtonClick;
     private Context mContext;
     private String mDialogTitle;
+    private int mCounterStart;
     private int mCounterMax;
     private String mCounterMaxToast;
     private int mCounterMin;
@@ -44,11 +45,12 @@ public class CounterDialog extends Dialog implements View.OnClickListener {
      * @param min the minimum value our counter can be as an integer
      * @param minToast String toast message
      */
-    public CounterDialog(Context context, String title, int max,
+    public CounterDialog(Context context, int startValue, String title, int max,
                          String maxToast, int min, String minToast) {
         super(context);
         mContext = context;
         mDialogTitle = title;
+        mCounterStart = startValue;
         mCounterMax = max;
         mCounterMaxToast = maxToast;
         mCounterMin = min;
@@ -74,7 +76,7 @@ public class CounterDialog extends Dialog implements View.OnClickListener {
 
         dialogTitleView.setText(mDialogTitle);
 
-        counter = new Counter(mContext, mCounterMax,
+        counter = new Counter(mContext, mCounterStart, mCounterMax,
                 mCounterMaxToast + " " + mCounterMax + ".",
                 mCounterMin, mCounterMinToast);
 

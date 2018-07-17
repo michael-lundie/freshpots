@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,6 +74,7 @@ public class ItemCursorAdapter extends CursorAdapter implements CounterDialog.On
         mContext = context;
 
         // Find individual views that we want to modify in the list item layout
+        FrameLayout listItem = view.findViewById(R.id.list_item);
         ImageView itemImageView = view.findViewById(R.id.list_image);
         TextView nameTextView = view.findViewById(R.id.name);
         TextView typeTextView = view.findViewById(R.id.productType);
@@ -131,12 +133,21 @@ public class ItemCursorAdapter extends CursorAdapter implements CounterDialog.On
                 context.startActivity(intent);
             }
         });
+        listItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EditorActivity.class);
+                intent.setData(itemUri);
+                context.startActivity(intent);
+            }
+        });
 
         final Button saleButton = view.findViewById(R.id.sell_item);
         saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                salesDialog = new CounterDialog(context, mContext.getString(R.string.sell_dialogue_title),
+                salesDialog = new CounterDialog(context, 1,
+                        mContext.getString(R.string.sell_dialogue_title),
                         itemStock,
                         context.getString(R.string.toast_salecounter_max),
                         1,

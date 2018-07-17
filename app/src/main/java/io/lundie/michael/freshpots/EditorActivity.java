@@ -167,6 +167,8 @@ public class EditorActivity extends AppCompatActivity implements
         mStockTextView = findViewById(R.id.textview_stock);
         mOrderTextView = findViewById(R.id.textview_order);
         restockButton = findViewById(R.id.restock_item);
+        plusButton = findViewById(R.id.button_stock_plus1);
+        minusButton = findViewById(R.id.button_stock_minus1);
 
         // Get image views
         mImagePictureView = findViewById(R.id.item_image_view);
@@ -179,9 +181,8 @@ public class EditorActivity extends AppCompatActivity implements
         mCostEditText.setOnTouchListener(mTouchListener);
         mAvailabilitySpinner.setOnTouchListener(mTouchListener);
 
-        // Set up spinner and stock views
+        // Set up spinner
         setupSpinner();
-        setupEditStockView();
 
         // Tutorial for getting image from gallery followed: https://youtu.be/_xIWkCJZCu0
         addImageButton = findViewById(R.id.add_item_image);
@@ -214,6 +215,9 @@ public class EditorActivity extends AppCompatActivity implements
             mStockTextView.setText("0");
             mOrderTextView.setText("0");
 
+            // Setup our edit stock view
+            setupEditStockView();
+
             // Invalidate the options menu, to hide the delete button.
             invalidateOptionsMenu();
             mAvailabilitySpinner.setOnTouchListener(mTouchListener);
@@ -225,10 +229,11 @@ public class EditorActivity extends AppCompatActivity implements
             this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
             // Set up the counter dialog for restock view
-            restockDialog = new CounterDialog(this, getString(R.string.dialogue_restock_title),
+            restockDialog = new CounterDialog(this,
+                    1,
+                    getString(R.string.dialogue_restock_title),
                     MAX_ORDER_QUANTITY,
-                    this.getString(R.string.dialogue_restock_toast_counter_max)
-                            + MAX_ORDER_QUANTITY + ".",
+                    this.getString(R.string.dialogue_restock_toast_counter_max) + MAX_ORDER_QUANTITY + ".",
                     1,
                     this.getString(R.string.dialogue_restock_toast_counter_min));
             restockDialog.setListener(this);
@@ -314,11 +319,10 @@ public class EditorActivity extends AppCompatActivity implements
     private void setupEditStockView() {
 
         // Create a new counter object and assign buttons appropriately
-        final Counter stockCounter = new Counter(this,
+        final Counter stockCounter = new Counter(this, mStockQuantity,
                 99, getString(R.string.toast_stockcounter_max) ,
                 1, getString(R.string.toast_stockcounter_min));
-        plusButton = findViewById(R.id.button_stock_plus1);
-        minusButton = findViewById(R.id.button_stock_minus1);
+
         plusButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -559,6 +563,7 @@ public class EditorActivity extends AppCompatActivity implements
             saveItemButton.setVisible(true);
         } else {
             saveItemButton.setVisible(false);
+            saveItemButton.setVisible(true);
             deleteItemButton.setVisible(false);
         }
         return true;
@@ -666,6 +671,8 @@ public class EditorActivity extends AppCompatActivity implements
             mStockTextView.setText(Integer.toString(mStockQuantity));
             mOrderTextView.setText(Integer.toString(mOrderQuantity));
 
+            // Set up edit stock view now we have received our data.
+            setupEditStockView();
 
             // The image view requires some special attention to check for null
             imageByteArray = cursor.getBlob(imageColumnIndex);
@@ -785,8 +792,8 @@ public class EditorActivity extends AppCompatActivity implements
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the item.
-                Log.i(LOG_TAG, "TEST: value:" +pendingQuantity);
                 mOrderTextView.setText(String.valueOf(pendingQuantity));
+                mItemEntriesHaveChanged = true;
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

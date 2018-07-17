@@ -13,7 +13,7 @@ public class Counter {
 
     private static final String LOG_TAG = Counter.class.getName();
 
-    private int quantity = 1;
+    private int quantity;
     private Context context;
     private int maximumQuantity;
     private int minimumQuantity;
@@ -28,8 +28,9 @@ public class Counter {
      * @param min the minimum value our counter can be as an integer
      * @param minToast String toast message
      */
-    public Counter(Context context, int max, String maxToast, int min, String minToast) {
+    public Counter(Context context, int startValue, int max, String maxToast, int min, String minToast) {
         this.context = context;
+        this.quantity = startValue;
         this.maximumQuantity = max;
         this.messageMaximum = maxToast;
         this.minimumQuantity = min;

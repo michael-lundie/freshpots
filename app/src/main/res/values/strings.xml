@@ -1,6 +1,6 @@
 <resources>
     <!-- Name for the application [CHAR LIMIT=12] -->
-    <string name="app_name">freshpots</string>
+    <string name="app_name">Fresh Pots</string>
 
     <!-- Label for overflow menu option that inserts fake item data into the app [CHAR LIMIT=20] -->
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
@@ -9,10 +9,10 @@
     <string name="action_delete_all_items">Delete All Items</string>
 
     <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
-    <string name="empty_view_title_text">Nothings here...</string>
+    <string name="empty_view_title_text">Nothings brewing yet...</string>
 
     <!-- Subtitle text for the empty view prompting the user to populate the database [CHAR LIMIT=50] -->
-    <string name="empty_view_subtitle_text">Get going by adding some new items.</string>
+    <string name="empty_view_subtitle_text">Get started by clicking the pink add product button.</string>
 
     <!-- Label for overflow menu option that links to the catalogue activity [CHAR LIMIT=20] -->
     <string name="action_goto_catalogue">Catalogue</string>
