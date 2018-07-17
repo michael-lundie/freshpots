@@ -44,5 +44,4 @@
             style="@style/DialogButton"
             android:text="@string/counter_dialogue_confirm" />
     </LinearLayout>
-
 </LinearLayout>

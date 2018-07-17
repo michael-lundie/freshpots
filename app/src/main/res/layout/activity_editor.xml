@@ -188,12 +188,9 @@
                     android:id="@+id/button_stock_plus1"
                     style="@style/CounterButton"
                     android:text="+"/>
-
             </LinearLayout>
-
         </RelativeLayout>
         <!-- Input field -->
-
     </LinearLayout>
     <!-- Stock category -->
     <LinearLayout
@@ -240,7 +237,6 @@
                 android:drawableLeft="@drawable/ic_restock"
                 android:drawablePadding="@dimen/button_drawable_padding"
                 android:text="@string/editor_button_order"/>
-
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
