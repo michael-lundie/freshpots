@@ -104,6 +104,9 @@
     <!-- Toast prompt for stock/availability conflict -->
     <string name="toast_stock_conflict">Make sure stock and availability are set correctly.</string>
 
+    <!-- Toast prompt for null fields -->
+    <string name="toast_null_input">The highlighted fields cannot be empty.</string>
+
     <!-- Dialog prompt message for leaving editor before saving [CHAR LIMIT=NONE] -->
     <string name="unsaved_changes_dialog_msg">Are you sure you want to discard your changes?</string>
 

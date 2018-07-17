@@ -419,13 +419,18 @@ public class EditorActivity extends AppCompatActivity implements
                 mAvailability == ItemEntry.AVAILABILITY_ALL && mStockQuantity == 0 ||
                 mAvailability == ItemEntry.AVAILABILITY_UNAVAILABLE && mStockQuantity > 0) {
             // TODO: Automatically update this in the editor.
-            Toast.makeText(this, getString(R.string.toast_stock_conflict), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.toast_stock_conflict),
+                    Toast.LENGTH_SHORT).show();
             stockContainer.setBackgroundResource(R.drawable.rounded_solid_error);
             spinnerContainer.setBackgroundResource(R.drawable.rounded_left_solid_error);
             setInputError(true);
         } else {
             stockContainer.setBackgroundResource(R.drawable.rounded_solid_white);
             spinnerContainer.setBackgroundResource(R.drawable.rounded_left_solid_details);
+        }
+        if (isInputError) {
+            Toast.makeText(this, getString(R.string.toast_null_input),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
