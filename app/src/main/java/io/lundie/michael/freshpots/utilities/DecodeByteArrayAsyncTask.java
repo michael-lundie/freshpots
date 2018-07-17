@@ -3,13 +3,11 @@ package io.lundie.michael.freshpots.utilities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-
+/**
+ * A simple Async task version of {@link DbBitmapUtility} getBitmap method.
+ * Allows this method to run on a background thread where appropriate.
+ */
 public class DecodeByteArrayAsyncTask extends AsyncTask<byte[], Void, Bitmap> {
 
     private static final String LOG_TAG = DecodeByteArrayAsyncTask.class.getSimpleName();

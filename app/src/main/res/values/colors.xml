@@ -10,4 +10,5 @@
 <color name="secondaryDarkColor">#524c00</color>
 <color name="primaryTextColor">#ffffff</color>
 <color name="secondaryTextColor">#ffffff</color>
+<color name="errorColor">#EF9A9A</color>
 </resources>

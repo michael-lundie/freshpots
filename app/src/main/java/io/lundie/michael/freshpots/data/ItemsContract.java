@@ -53,9 +53,6 @@ public class ItemsContract {
         public static final int AVAILABILITY_ONLINE = 2;
         public static final int AVAILABILITY_UNAVAILABLE = 0;
 
-        public static final int ORDERFLAG_ACTIVE = 1;
-        public static final int ORDERFLAG_INACTIVE = 0;
-
         /**
          * Returns whether or not item availability is {@link #AVAILABILITY_ALL}, {@link #AVAILABILITY_ONLINE},
          * or {@link #AVAILABILITY_INSTORE}.
@@ -63,14 +60,6 @@ public class ItemsContract {
         public static boolean isValidAvailablitity(int availability) {
             return availability == AVAILABILITY_INSTORE || availability == AVAILABILITY_ONLINE ||
                     availability == AVAILABILITY_ALL || availability == AVAILABILITY_UNAVAILABLE;
-        }
-
-        /**
-         * Returns whether or not an orderflag {@link #ORDERFLAG_ACTIVE}, {@link #ORDERFLAG_INACTIVE},
-         * is valid.
-         */
-        public static boolean isValidFlag(int orderflag) {
-            return orderflag == ORDERFLAG_ACTIVE || orderflag == ORDERFLAG_INACTIVE;
         }
     }
 }

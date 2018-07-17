@@ -4,10 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/restock_item_dialogue"
+    android:id="@+id/counter_dialogue"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <TextView
@@ -36,14 +37,12 @@
         android:layout_height="wrap_content">
         <Button
             android:id="@+id/dialog_counter_cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            style="@style/DialogButton"
+            android:text="@string/counter_dialogue_cancel"/>
         <Button
             android:id="@+id/dialog_counter_confirm"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            style="@style/DialogButton"
+            android:text="@string/counter_dialogue_confirm" />
     </LinearLayout>
 
 </LinearLayout>

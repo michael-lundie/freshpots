@@ -38,12 +38,10 @@ public class ItemsProvider extends ContentProvider {
 
     // Static initializer. This is run the first time anything is called from this class.
     static {
-        // The calls to addURI() go here, for all of the content URI patterns that the provider
-        // should recognize. All paths added to the UriMatcher have a corresponding code to return
-        // when a match is found.
+        // All content URI patterns that the provider should recognise are located here.
+        // If a match is found, a corresponding code is returned
 
         sUriMatcher.addURI(ItemsContract.CONTENT_AUTHORITY, ItemsContract.PATH_ITEMS, ITEMS);
-
         sUriMatcher.addURI(ItemsContract.CONTENT_AUTHORITY,
                 ItemsContract.PATH_ITEMS + "/#", ITEM_ID);
     }
@@ -53,9 +51,7 @@ public class ItemsProvider extends ContentProvider {
      */
     @Override
     public boolean onCreate() {
-
         mDbHelper = new ItemsDbHelper(getContext());
-
         return true;
     }
 
@@ -131,7 +127,7 @@ public class ItemsProvider extends ContentProvider {
 
         // If the weight is provided, check that it's greater than or equal to 0 kg
         Integer cost = values.getAsInteger(ItemEntry.COLUMN_ITEM_COST);
-        if (cost == null && cost < 0) {
+        if (cost == null || cost < 0) {
             throw new IllegalArgumentException("A valid integer value for cost is required.");
         }
 
@@ -279,7 +275,7 @@ public class ItemsProvider extends ContentProvider {
         // Otherwise, get writeable database to update the data
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        getContext().getContentResolver().notifyChange(uri, null);
+        //getContext().getContentResolver().notifyChange(uri, null);
 
         // Perform the update on the database and get the number of rows affected
         int rowsUpdated = database.update(ItemEntry.TABLE_NAME, values, selection, selectionArgs);
@@ -287,6 +283,7 @@ public class ItemsProvider extends ContentProvider {
         // If 1 or more rows were updated, then notify all listeners that the data at the
         // given URI has changed
         if (rowsUpdated != 0) {
+            Log.i(LOG_TAG, "TEST: notify change called");
             getContext().getContentResolver().notifyChange(uri, null);
         }
 

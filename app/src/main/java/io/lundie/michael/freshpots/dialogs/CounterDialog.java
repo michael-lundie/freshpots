@@ -2,7 +2,8 @@ package io.lundie.michael.freshpots.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -13,7 +14,8 @@ import io.lundie.michael.freshpots.utilities.Counter;
 
 public class CounterDialog extends Dialog implements View.OnClickListener {
 
-    private TextView dialogTitleView;
+    private static final String LOG_TAG = CounterDialog.class.getName();
+
     private Button dialogConfirmButton, dialogCancelButton;
     private CounterDialog.OnButtonClick onButtonClick;
     private Context mContext;
@@ -24,12 +26,24 @@ public class CounterDialog extends Dialog implements View.OnClickListener {
     private String mCounterMinToast;
     private Counter counter;
 
-
+    /**
+     * OnButtonClick interface. Allows us to specify specific action behaviour on a per instance
+     * basis.
+     */
     public interface OnButtonClick {
-        void onConfirmButtonClick();
-        void onCancelButtonClick();
+        void onConfirmButtonClick(CounterDialog dialog);
+        void onCancelButtonClick(CounterDialog dialog);
     }
 
+    /**
+     * Class constructor
+     * @param context context (where) current method is called from.
+     * @param title String title for our dialog box
+     * @param max the maximum amount our counter should reach as an integer
+     * @param maxToast String toast message
+     * @param min the minimum value our counter can be as an integer
+     * @param minToast String toast message
+     */
     public CounterDialog(Context context, String title, int max,
                          String maxToast, int min, String minToast) {
         super(context);
@@ -44,9 +58,8 @@ public class CounterDialog extends Dialog implements View.OnClickListener {
         initViews();
     }
 
-    //initialise views
     private void initViews() {
-        dialogTitleView = findViewById(R.id.dialog_title);
+        TextView dialogTitleView = findViewById(R.id.dialog_title);
         dialogConfirmButton = findViewById(R.id.dialog_counter_confirm);
         dialogCancelButton = findViewById(R.id.dialog_counter_cancel);
         dialogConfirmButton.setOnClickListener(this);
@@ -57,9 +70,12 @@ public class CounterDialog extends Dialog implements View.OnClickListener {
         final Button decrementQuantity = findViewById(R.id.dialog_counter_button_minus);
         final TextView quantityTextView = findViewById(R.id.dialog_textview_counter_quantity);
 
-        //TODO: Replace String literals.
+        Log.i(LOG_TAG, "TEST, max var:" +mCounterMax);
+
+        dialogTitleView.setText(mDialogTitle);
+
         counter = new Counter(mContext, mCounterMax,
-                mCounterMaxToast + mCounterMax + ".",
+                mCounterMaxToast + " " + mCounterMax + ".",
                 mCounterMin, mCounterMinToast);
 
         decrementQuantity.setOnClickListener(new View.OnClickListener() {
@@ -78,24 +94,25 @@ public class CounterDialog extends Dialog implements View.OnClickListener {
             }
         });
 
+        // Let's programmatically set the minimum width of our dialog window based on the
+        // current display width.
+        DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
+        int width = metrics.widthPixels;
+        findViewById(R.id.counter_dialogue).setMinimumWidth(6 * width/7);
     }
 
-    //set title for dialog
-    public void setAlertTitle(String title) {
-        dialogTitleView.setText(mDialogTitle);
-    }
-
+    // Solved interface problems using code from https://stackoverflow.com/a/31066725
     public void setListener(CounterDialog.OnButtonClick onButtonClick){
         this.onButtonClick = onButtonClick;
     }
 
-    public void onClick(View v) {
+    public void onClick(View view) {
         if(onButtonClick !=null){
-            if (v == dialogConfirmButton) {
-                onButtonClick.onConfirmButtonClick();
+            if (view == dialogConfirmButton) {
+                onButtonClick.onConfirmButtonClick(this);
             }
-            if (v == dialogCancelButton) {
-                onButtonClick.onCancelButtonClick();
+            if (view == dialogCancelButton) {
+                onButtonClick.onCancelButtonClick(this);
             }
         }
     }

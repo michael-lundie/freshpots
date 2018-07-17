@@ -6,13 +6,14 @@
     android:id="@+id/list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@color/primaryLightColor">
     <ImageView
         android:id="@+id/list_image"
         android:layout_width="150dp"
         android:layout_height="match_parent"
-        android:visibility="visible" />
+        android:scaleType="fitCenter"
+        android:visibility="visible"
+        tools:background="@drawable/dummy_coffee_1"/>
     <View
         android:layout_width="150dp"
         android:layout_height="match_parent"

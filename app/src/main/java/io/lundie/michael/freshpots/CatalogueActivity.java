@@ -1,7 +1,6 @@
 package io.lundie.michael.freshpots;
 
 import android.app.LoaderManager;
-import android.content.ClipData;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
@@ -17,10 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import io.lundie.michael.freshpots.data.ItemsContract.ItemEntry;
+import io.lundie.michael.freshpots.utilities.DummyItemGenerator;
 
 public class CatalogueActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
@@ -52,8 +51,7 @@ public class CatalogueActivity extends AppCompatActivity implements LoaderManage
             }
         });
 
-
-        // Kick off the laoder
+        // Kick off the loader
         getLoaderManager().initLoader(ITEM_LOADER, null, this);
     }
 
@@ -70,6 +68,10 @@ public class CatalogueActivity extends AppCompatActivity implements LoaderManage
     public boolean onOptionsItemSelected(MenuItem item) {
         // Set-up menu selection using switch
         switch(item.getItemId()) {
+            case R.id.action_add_item:
+                Intent intent = new Intent(this, EditorActivity.class);
+                this.startActivity(intent);
+                return true;
             case R.id.action_insert_dummy_data:
                 insertItem();
                 return true;
@@ -84,20 +86,11 @@ public class CatalogueActivity extends AppCompatActivity implements LoaderManage
      * Helper method to insert dummy data into the database. For debugging purposes only.
      */
     private void insertItem() {
-        // Create a ContentValues object where column names are the keys,
-        // and Toto's pet attributes are the values.
-        ContentValues values = new ContentValues();
-        values.put(ItemEntry.COLUMN_ITEM_NAME, "Kups!");
-        values.put(ItemEntry.COLUMN_ITEM_TYPE, "Mug");
-        values.put(ItemEntry.COLUMN_ITEM_COST, 99);
-        values.put(ItemEntry.COLUMN_ITEM_STOCK, 2);
-        values.put(ItemEntry.COLUMN_ITEM_AVAILABILITY, ItemEntry.AVAILABILITY_ALL);
+        // Create a partially randomised content values object containing dummy data
+        ContentValues values = new DummyItemGenerator(this).generateItem();
 
-        // Insert a new row for Toto into the provider using the ContentResolver.
-        // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
-        // into the pets database table.
-        // Receive the new content URI that will allow us to access Toto's data in the future.
-        Uri newUri = getContentResolver().insert(ItemEntry.CONTENT_URI, values);
+        // Insert a dummy data row into the provider using the ContentResolver.
+        getContentResolver().insert(ItemEntry.CONTENT_URI, values);
     }
 
     /**
@@ -115,7 +108,6 @@ public class CatalogueActivity extends AppCompatActivity implements LoaderManage
                 ItemEntry.COLUMN_ITEM_NAME,
                 ItemEntry.COLUMN_ITEM_TYPE,
                 ItemEntry.COLUMN_ITEM_IMAGE,
-
                 ItemEntry.COLUMN_ITEM_STOCK,
                 ItemEntry.COLUMN_ITEM_SALES,
                 ItemEntry.COLUMN_ITEM_COST };

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+           <shape android:shape="rectangle">
+               <corners android:radius="2dp"/>
+                <size android:width="100dp"
+                    android:height="100dp"/>
+                <solid android:color="@color/primaryLightColorTrans"/>
+            </shape>
+    </item>
+    <item
+        android:id="@+id/editor_layer_drawable"
+        android:drawable="@drawable/ic_image">
+    </item>
+</layer-list>

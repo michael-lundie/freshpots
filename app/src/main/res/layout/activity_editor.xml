@@ -15,30 +15,40 @@
     android:orientation="vertical"
     android:paddingTop="@dimen/top_padding"
    >
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="@dimen/editor_image_minheight"
-        android:layout_margin="@dimen/half_padding"
-        android:gravity="center"
-        android:background="@color/primaryLightColor">
-
-        <Button
-            android:id="@+id/add_item_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            style="@style/RoundedButtonGreen"
-            android:drawablePadding="@dimen/button_drawable_padding"
-            android:padding="@dimen/half_padding"
-            android:text="@string/editor_button_add_image"
-            android:drawableLeft="@drawable/ic_add_photo"
-            android:textAlignment="center"/>
+        android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/item_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:id="@+id/edit_header_background"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/editor_image_minheight"
+            android:layout_margin="@dimen/half_padding">
+            <ImageView
+                android:id="@+id/item_image_view"
+                android:layout_width="105dp"
+                android:scaleType="centerCrop"
+                android:layout_height="105dp"
+                android:layout_marginRight="@dimen/default_padding"
+                android:background="@drawable/avatar_placeholder"
+                android:visibility="visible" />
+            <Button
+                android:id="@+id/add_item_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/RoundedButtonGreen"
+                android:drawablePadding="@dimen/button_drawable_padding"
+                android:padding="@dimen/half_padding"
+                android:text="@string/editor_button_add_image"
+                android:drawableLeft="@drawable/ic_add_photo"
+                android:textAlignment="center"/>
+        </LinearLayout>
+    </FrameLayout>
+
     <!-- Overview category -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,6 +58,7 @@
         <!-- Label -->
         <TextView
             android:text="@string/category_overview"
+            android:layout_weight="1.1"
             style="@style/CategoryStyle"
             android:paddingRight="@dimen/default_padding"
             android:paddingTop="@dimen/half_padding"
@@ -57,7 +68,7 @@
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1.9"
             android:paddingLeft="@dimen/editor_input_leftpadding"
             android:orientation="vertical">
 
@@ -94,41 +105,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Overview category -->
-   <!-- <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:text="@string/category_image"
-            style="@style/CategoryStyle"
-            android:paddingRight="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"/>
-
-
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:paddingLeft="4dp"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/ic_edit"
-                android:
-                android:layout_weight="2"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/DetailTextStyle"/>
-        </LinearLayout>
-
-    </LinearLayout>-->
-
     <!-- Availability category -->
     <LinearLayout
         android:id="@+id/container_availability"
@@ -139,14 +115,16 @@
         <!-- Label -->
         <TextView
             android:text="@string/category_availability"
+            android:layout_weight="1.1"
             style="@style/CategoryStyle" />
 
         <!-- Input field -->
         <LinearLayout
+            android:id="@+id/container_spinner"
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             style="@style/DetailTextStyle"
-            android:layout_weight="2"
+            android:layout_weight="1.9"
             android:layout_marginLeft="@dimen/editor_input_leftpadding"
             android:orientation="vertical">
 
@@ -163,7 +141,6 @@
 
     <!-- Stock category -->
     <LinearLayout
-        android:id="@+id/container_stock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -171,12 +148,13 @@
         <!-- Label -->
         <TextView
             android:text="@string/category_stock"
+            android:layout_weight="1.1"
             style="@style/CategoryStyle" />
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2">
+            android:layout_weight="1.9">
             <View
                 android:layout_width="match_parent"
                 android:layout_centerVertical="true"
@@ -185,6 +163,7 @@
                 android:layout_height="@dimen/half_padding"
                 android:background="@color/primaryTextColor"/>
             <LinearLayout
+                android:id="@+id/container_stock"
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:background="@drawable/rounded_solid_white"
@@ -226,24 +205,26 @@
         <!-- Label -->
         <TextView
             android:text="@string/category_order"
+            android:layout_weight="1.1"
             style="@style/CategoryStyle" />
 
         <!-- Input field -->
         <LinearLayout
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1.9"
             style="@style/DetailTextStyle"
-            android:paddingLeft="@dimen/editor_input_leftpadding"
-            android:paddingTop="@dimen/editor_layout_withbutton_viewpadding"
-            android:paddingBottom="@dimen/editor_layout_withbutton_viewpadding"
-            android:paddingRight="@dimen/editor_input_leftpadding"
+            android:padding="0dp"
             android:layout_marginLeft="@dimen/editor_input_leftpadding"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textview_order"
                 style="@style/CounterTextViewStyle"
+                android:paddingLeft="@dimen/half_padding"
+                android:paddingTop="@dimen/editor_layout_withbutton_viewpadding"
+                android:paddingBottom="@dimen/editor_layout_withbutton_viewpadding"
+                android:paddingRight="@dimen/editor_input_leftpadding"
                 tools:text="20"/>
 
             <Button

@@ -17,8 +17,8 @@
     <!-- Label for overflow menu option that links to the catalogue activity [CHAR LIMIT=20] -->
     <string name="action_goto_catalogue">Catalogue</string>
 
-    <!-- Label for overflow menu option that links to the editor activity [CHAR LIMIT=20] -->
-    <string name="action_goto_editor">Editor</string>
+    <!-- Label for overflow menu option that adds and item [CHAR LIMIT=20] -->
+    <string name="action_add_item">Add a Product</string>
 
     <!-- Text for item type information in catalogue view [CHAR LIMIT=20] -->
     <string name="catalogue_item_type_text">Item Type:</string>
@@ -36,16 +36,19 @@
     <string name="button_sale">Sell Item</string>
 
     <!-- Dialogue label for sales quantity [CHAR LIMIT=20] -->
-    <string name="sell_dialogue_quantity">How many sold?</string>
+    <string name="sell_dialogue_title">How many sold?</string>
 
-    <!-- Dialogue label for sales quantity [CHAR LIMIT=20] -->
-    <string name="sell_dialogue_confirm">Confirm Sale</string>
+    <!-- Dialogue confirmation label [CHAR LIMIT=20] -->
+    <string name="counter_dialogue_confirm">Confirm</string>
 
-    <!-- Dialogue label for sales quantity [CHAR LIMIT=20] -->
-    <string name="sell_dialogue_cancel">Cancel</string>
+    <!-- Dialogue cancel label [CHAR LIMIT=20] -->
+    <string name="counter_dialogue_cancel">Cancel</string>
 
     <!-- Title for the activity to add a new pet [CHAR LIMIT=20] -->
     <string name="editor_activity_title_new_item">Add a New Product</string>
+
+    <!-- Title for the activity to add a new pet [CHAR LIMIT=20] -->
+    <string name="editor_activity_title_view_item">View Product</string>
 
     <!-- Title for the activity to edit an existing pet [CHAR LIMIT=20] -->
     <string name="editor_activity_title_edit_item">Edit Product</string>
@@ -95,15 +98,8 @@
     <!-- Label for stock category in the editor [CHAR LIMIT=30] -->
     <string name="category_order">On Order</string>
 
-    <!-- Dialog prompt for availability/stock conflict [CHAR LIMIT=NONE] -->
-    <string name="stock_conflict_dialog_msg">Oops! You have set item as available, but stock is zero.
-    What do you want to do?</string>
-
-    <!-- Dialog prompt for availability/stock conflict [CHAR LIMIT=NONE] -->
-    <string name="btn_change_availability">Change stock and save.</string>
-
-    <!-- Dialog prompt for availability/stock conflict [CHAR LIMIT=NONE] -->
-    <string name="btn_change_stock">Edit stock.</string>
+    <!-- Toast prompt for stock/availability conflict -->
+    <string name="toast_stock_conflict">Make sure stock and availability are set correctly.</string>
 
     <!-- Dialog prompt message for leaving editor before saving [CHAR LIMIT=NONE] -->
     <string name="unsaved_changes_dialog_msg">Are you sure you want to discard your changes?</string>
@@ -154,7 +150,7 @@
     <string name="editor_nothing_added">No products were added.</string>
 
     <!-- Dialogue category title for restock [CHAR LIMIT=30] -->
-    <string name="dialogue_restock_choose_quantity">Choose Order Quantity</string>
+    <string name="dialogue_restock_title">Choose Order Quantity</string>
 
     <!-- Dialogue restock - counter maximum [CHAR LIMIT=30] -->
     <string name="dialogue_restock_toast_counter_max">Sorry! Maximum stock order is</string>
@@ -171,7 +167,36 @@
     <!-- Toast message for sale counter - minimum reached [CHAR LIMIT=NONE] -->
     <string name="toast_salecounter_min">Sorry! You can\'t sell less than one item.</string>
 
+    <!-- Toast message for stock counter - maximum stock reached [CHAR LIMIT=NONE] -->
+    <string name="toast_stockcounter_max">Sorry! Maximum stock input reached.</string>
+
+    <!-- Toast message for stock counter - minimum reached [CHAR LIMIT=NONE] -->
+    <string name="toast_stockcounter_min">Sorry! You can\'t have less than one item.</string>
+
     <!-- Toast message for sale counter - minimum reached [CHAR LIMIT=NONE] -->
     <string name="toast_image_error">Sorry! We couldn\'t access that image.</string>
 
+    <!-- E-mail application chooser string [CHAR LIMIT=50] -->
+    <string name="email_order_chooser">Send mail using...</string>
+
+    <!-- E-mail subject for order item [CHAR LIMIT=50] -->
+    <string name="email_order_subject">Product Order</string>
+
+    <!-- E-mail content [CHAR LIMIT=50] -->
+    <string name="email_order_content">Order for:</string>
+
+    <!-- E-mail content [CHAR LIMIT=50] -->
+    <string name="email_order_content_quantity">Quantity:</string>
+
+    <!-- Order success promt title [CHAR LIMIT=50] -->
+    <string name="dialog_email_order_title">Was your order successful?</string>
+
+    <!-- Order success promt title [CHAR LIMIT=50] -->
+    <string name="toast_email_tryagain">Please try again later.</string>
+
+    <!-- Order success: yes [CHAR LIMIT=20] -->
+    <string name="yes">Yes</string>
+
+    <!-- Order success promt title [CHAR LIMIT=20] -->
+    <string name="no">No</string>
 </resources>

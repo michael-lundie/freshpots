@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import io.lundie.michael.freshpots.data.ItemsContract.ItemEntry;
 
-
 public class ItemsDbHelper extends SQLiteOpenHelper {
 
     /** Current database version. Increment upon database change. Note: For uprades,
@@ -42,6 +41,5 @@ public class ItemsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
     }
 }
